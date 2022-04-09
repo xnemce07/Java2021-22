@@ -14,7 +14,7 @@ public class UMLClassDiagram {
     // Create an instance of itself at the time of calss loading
     public static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
 
-    private List<UMLClassifier> classes = new ArrayList<UMLClassifier>();
+    private List<UMLClassifier> classList = new ArrayList<UMLClassifier>();
 
     // Private constructor to avoid instatiation
     private UMLClassDiagram() {
@@ -25,11 +25,11 @@ public class UMLClassDiagram {
     }
 
     public List<UMLClassifier> getClasses() {
-        return Collections.unmodifiableList(classes);
+        return Collections.unmodifiableList(classList);
     }
 
     public UMLClassifier getClass(UUID id) {
-        for (UMLClassifier umlClass : classes) {
+        for (UMLClassifier umlClass : classList) {
             if (umlClass.getId() == id) {
                 return umlClass;
             }
@@ -38,7 +38,7 @@ public class UMLClassDiagram {
     }
 
     public void addClass(UMLClass umlClass) {
-        classes.add(umlClass);
+        classList.add(umlClass);
     }
 
     // TODO: Unless we want to be able to add multiple calsses of the same name
@@ -51,14 +51,14 @@ public class UMLClassDiagram {
      */
     public UMLClass createClass(String className) {
         // We'll throw this out if we decide that we wanna be able to cereate two calsses of the same name
-        for (UMLClassifier umlClass : classes) {
+        for (UMLClassifier umlClass : classList) {
             if (umlClass.getName().equals(className)) {
                 return null;
             }
         }
 
         UMLClass newClass = new UMLClass(className);
-        classes.add(newClass);
+        classList.add(newClass);
         return newClass;
     }
 }
