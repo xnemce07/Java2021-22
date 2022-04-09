@@ -6,20 +6,24 @@ import java.util.UUID;
 
 public class UMLClass extends UMLClassifier{
 
-    private List<UMLAttribute> attributes;
-    private List<UMLMethod> methods;
+    private List<UMLAttribute> attributes = new ArrayList<UMLAttribute>();
+    private List<UMLMethod> methods = new ArrayList<UMLMethod>();
 
     public UMLClass(String name) {
         super(name, true);
     }
 
     //
-    public void addAttribute(String name,String type){
-        attributes.add(new UMLAttribute(name,type));
+    public UUID addAttribute(String name,String type){
+        UMLAttribute attr = new UMLAttribute(name,type);
+        attributes.add(attr);
+        return attr.getId();
     }
 
-    public void addAttribute(String name,UMLClassifier type){
-        attributes.add(new UMLAttribute(name,type));
+    public UUID addAttribute(String name,UMLClassifier type){
+        UMLAttribute attr = new UMLAttribute(name,type);
+        attributes.add(attr);
+        return attr.getId();
     }
 
     public void addAttribute(UMLAttribute attribute){
@@ -53,12 +57,16 @@ public class UMLClass extends UMLClassifier{
 
 
     //
-    public void addMethod(String name,String type){
-        methods.add(new UMLMethod(name,type));
+    public UUID addMethod(String name,String type){
+        UMLMethod method = new UMLMethod(name,type);
+        methods.add(method);
+        return method.getId();
     }
 
-    public void addMethod(String name,UMLClassifier type){
-        methods.add(new UMLMethod(name,type));
+    public UUID addMethod(String name,UMLClassifier type){
+        UMLMethod method = new UMLMethod(name,type);
+        methods.add(method);
+        return method.getId();
     }
 
     public void addMethod(UMLMethod method){
