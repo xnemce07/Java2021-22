@@ -12,14 +12,26 @@ public class UMLElement extends Observable {
         this.name = name;
     }
 
+    /**
+     * Set name of the element
+     * @param name Name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get name of the element
+     * @return Name
+     */
     public String getName(){
         return name;
     }
 
+    /**
+     * Get UUID of the element
+     * @return UUID
+     */
     public UUID getId() {
         return id;
     }

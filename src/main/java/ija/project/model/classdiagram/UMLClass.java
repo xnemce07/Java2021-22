@@ -73,7 +73,7 @@ public class UMLClass extends UMLInterface{
 
     /**
      * Remove attribute by index
-     * @param index
+     * @param index Index
      * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size(attributes))
      */
     public void removeAttribute(int index){

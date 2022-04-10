@@ -16,9 +16,10 @@ public class UMLClassDiagram {
 
     private List<UMLClassifier> classList = new ArrayList<UMLClassifier>();
 
-    // Private constructor to avoid instatiation
+    // Private constructor to avoid instantiation
     private UMLClassDiagram() {
     }
+
 
     public static UMLClassDiagram getInstance() {
         return classDiagramInstance;
