@@ -7,9 +7,14 @@ public class UMLRelation extends UMLElement {
     private UMLInterface startItf;
     private UMLInterface endItf;
 
+    public enum relationType {
+        ASOCIATION,
+        AGREGATION,
+        COMPOSITION,
+        GENERALIZATION
+    }
 
-
-    public UMLRelation(String name,UMLInterface startInterface,UMLInterface endInterface) {
+    public UMLRelation(String name, UMLInterface startInterface, UMLInterface endInterface) {
         super(name);
         startItf = startInterface;
         endItf = endInterface;
@@ -29,13 +34,6 @@ public class UMLRelation extends UMLElement {
 
     public void setEndInterface(UMLInterface newEndInterface){
         endItf = newEndInterface;
-    }
-
-    public enum relationType {
-        ASOCIATION,
-        AGREGATION,
-        COMPOSITION,
-        GENERALIZATION
     }
 
 }

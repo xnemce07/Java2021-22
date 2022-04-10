@@ -1,21 +1,19 @@
 package ija.project.model.classdiagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class UMLInterface extends UMLClassifier {
+import ija.project.model.classdiagram.exceptions.NameUnavailableException;
+
+public class UMLInterface extends UMLType {
 
     private List<UMLMethod> methodList = new ArrayList<UMLMethod>();
 
     public UMLInterface(String name){
         super(name, true);
     }
-
-    public UMLInterface(String name, boolean b) {
-        super(name, b);
-    }
-
 
     // ========================================================================= //
     //                                UML METHODS                                //
@@ -26,31 +24,58 @@ public class UMLInterface extends UMLClassifier {
      * @param name Name of the method
      * @param type Type of the method
      * @return UUID of created method
+     * @throws NameUnavailableException If name is already taken.
      */
-    public UUID addMethod(String name, String type){
-        UMLMethod method = new UMLMethod(name,type);
+    public UMLMethod createMethod(String name, String type) throws NameUnavailableException{
+        if(methodExists(name)){
+            throw new NameUnavailableException(name);
+        }
+        UMLMethod method = new UMLMethod(name, type);
         methodList.add(method);
-        return method.getId();
-    }
+        return method;
+    } 
 
     /**
      * Create and add method with type that already exists
      * @param name Name of the method
      * @param type Type of the method
-     * @return UUID of created method
+     * @return UUID of created method 
+     * @throws NameUnavailableException If name is already taken.
      */
-    public UUID addMethod(String name,UMLClassifier type){
-        UMLMethod method = new UMLMethod(name,type);
+    public UMLMethod createMethod(String name, UMLType type) throws NameUnavailableException{
+        if(methodExists(name)){
+            throw new NameUnavailableException(name);
+        }
+        UMLMethod method = new UMLMethod(name, type);
         methodList.add(method);
-        return method.getId();
+        return method;
     }
 
-    /**
-     * Add already created method
-     * @param method Method to be added
-     */
-    public void addMethod(UMLMethod method){
+    public UMLMethod getMethodByName(String name){
+        for (UMLMethod method:methodList){
+            if (method.getName() == name){
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private boolean methodExists(String name){
+        return getMethodByName(name) != null;
+    }
+
+    public UMLMethod createMethod(){
+        String potentialName = "New method";
+        String nameCounter = "";
+        int counter = 1;
+        while(methodExists(potentialName + nameCounter)){
+            nameCounter = "(" + counter + ")";
+            counter++; 
+        }
+
+        UMLMethod method = new UMLMethod(potentialName + nameCounter, "");
         methodList.add(method);
+        return method;
     }
 
     /**
@@ -68,25 +93,6 @@ public class UMLInterface extends UMLClassifier {
     }
 
     /**
-     * Get method by index
-     * @param index
-     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size(methods))
-     */
-    public  UMLMethod getMethod(int index){
-        return methodList.get(index);
-    }
-
-    /**
-     * Remove method by index
-     * @param index
-     * @throws IndexOutOfBoundsException – if the index is out of range (index < 0 || index >= size(methods))
-     */
-    public void removeMethod(int index){
-        methodList.remove(index);
-    }
-
-
-    /**
      * Remove method by UUID
      * @param id UUID
      */
@@ -94,12 +100,8 @@ public class UMLInterface extends UMLClassifier {
         methodList.remove(getMethod(id));
     }
 
-    /**
-     * Remove method
-     * @param Method
-     */
-    public void removeMethod(UMLMethod Method){
-        methodList.remove(Method);
+    public List<UMLMethod> getMethodList(){
+        return Collections.unmodifiableList(methodList);
     }
 
 }

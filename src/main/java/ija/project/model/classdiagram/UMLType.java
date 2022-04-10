@@ -2,16 +2,16 @@ package ija.project.model.classdiagram;
 
 import ija.project.model.UMLElement;
 
-public class UMLClassifier extends UMLElement{
+public class UMLType extends UMLElement{
     private Boolean isUserDefined;
 
-    public UMLClassifier(String name, Boolean isUserDefined){
+    public UMLType(String name, Boolean isUserDefined){
         super(name);
         this.isUserDefined = isUserDefined;
     }
 
-    public static UMLClassifier forName(String name){
-        return new UMLClassifier(name, false);
+    public static UMLType forName(String name){
+        return new UMLType(name, false);
     }
 
     public Boolean getIsUserDefined(){

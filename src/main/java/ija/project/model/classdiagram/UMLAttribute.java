@@ -4,62 +4,64 @@ import ija.project.model.UMLElement;
 
 public class UMLAttribute extends UMLElement{
 
-    private UMLClassifier type;
-    private AccessibilityModifier accessibilityModifier = AccessibilityModifier.PRIVATE;
-
-    public UMLAttribute(String name,String type) {
-        super(name);
-        this.type = UMLClassifier.forName(type);
-    }
-
-    public UMLAttribute(String name,UMLClassifier type){
-        super(name);
-        this.type = type;
-    }
-
-
-    public UMLClassifier getType() {
-        return type;
-    }
+    private UMLType type;
+    private AccessModifier accessModifier = AccessModifier.PRIVATE;
 
     /**
-     * Set type to a instance of UMLClassifier
-     * @param type UMLClassifier
+     * Enum with all possible access modifiers
      */
-    public void setType(UMLClassifier type) {
+    public enum AccessModifier {
+        PRIVATE,
+        PUBLIC,
+        PROTECTED,
+        PACKAGE
+    }
+
+    public UMLAttribute(String name, String type) {
+        super(name);
+        this.type = UMLType.forName(type);
+    }
+
+    public UMLAttribute(String name, UMLType type){
+        super(name);
         this.type = type;
+    }
+
+
+    public UMLType getType() {
+        return type;
     }
 
     /**
      * Set type to UMLClassifier with specified name
      * @param name Name
      */
-    public void setTpe(String name){
-        type = UMLClassifier.forName(name);
+    public void setType(String name){
+        type = UMLType.forName(name);
+    }
+
+    /**
+     * Set type to a instance of UMLClassifier
+     * @param type UMLClassifier
+     */
+    public void setType(UMLType type) {
+        this.type = type;
     }
 
     /**
      * Set accessibility modifier
-     * @param accessibilityModifier Accessibility modifier
+     * @param accessModifier Accessibility modifier
      */
-    public void setAccessibilityModifier(AccessibilityModifier accessibilityModifier){
-        this.accessibilityModifier = accessibilityModifier;
+    public void setAccessModifier(AccessModifier accessModifier){
+        this.accessModifier = accessModifier;
     }
 
     /**
      * Get accessibility modifier
      * @return Accessibility modifier
      */
-    public AccessibilityModifier getAccessibilityModifier(){
-        return accessibilityModifier;
+    public AccessModifier getAccessModifier(){
+        return accessModifier;
     }
 
-    /**
-     * Enum with all possible access modifiers
-     */
-    public enum AccessibilityModifier {
-        PRIVATE,
-        PUBLIC,
-        PROTECTED
-    }
 }
