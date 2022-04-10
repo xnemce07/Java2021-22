@@ -6,8 +6,10 @@
 
 package ija.project;
 
+//import org.junit.Assert;
 import org.junit.Assert;
 import org.junit.Test;
+
 
 import ija.project.model.UMLElement;
 import ija.project.model.classdiagram.UMLClass;
@@ -29,6 +31,7 @@ public class ClassDiagramTest {
         UMLClassifier cls2 = UMLClassifier.forName("int");
         Assert.assertFalse("Data type " + cls2.getName() + " is not user defined.", cls2.getIsUserDefined());
 
+
         UMLClassifier itf1 = new UMLInterface("ITF1");
         Assert.assertTrue("Interface " + itf1.getName() + " is user defined.", itf1.getIsUserDefined());
     }
@@ -42,7 +45,7 @@ public class ClassDiagramTest {
         Assert.assertNotNull(clsDiagram);
 
         UMLClass cls1 = clsDiagram.createClass("Class1");
-        Assert.assertEquals("Class " + cls1.getName() + " is present in the diagram.", clsDiagram.getClass(cls1.getId()), cls1);
+        Assert.assertEquals("Class " + cls1.getName() + " is present in the diagram.", clsDiagram.getClassifier(cls1.getId()), cls1);
         
         UMLClass cls2 = new UMLClass("Class2");
         UMLClassifier cls3 = UMLClassifier.forName("int");
