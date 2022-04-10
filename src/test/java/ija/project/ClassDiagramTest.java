@@ -19,6 +19,8 @@ import ija.project.model.classdiagram.UMLInterface;
 import ija.project.model.classdiagram.UMLAttribute;
 import ija.project.model.classdiagram.UMLMethod;
 
+import java.util.UUID;
+
 /**
  * Unit test for Class Diagram backend. Tests
  */
@@ -44,13 +46,19 @@ public class ClassDiagramTest {
         UMLClassDiagram clsDiagram = UMLClassDiagram.getInstance();
         Assert.assertNotNull(clsDiagram);
 
-        UMLClass cls1 = clsDiagram.createClass("Class1");
-        Assert.assertEquals("Class " + cls1.getName() + " is present in the diagram.", clsDiagram.getClassifier(cls1.getId()), cls1);
-        
-        UMLClass cls2 = new UMLClass("Class2");
-        UMLClassifier cls3 = UMLClassifier.forName("int");
+        UMLClass gameClass = clsDiagram.createClass("Game");
+        Assert.assertEquals("Class " + gameClass.getName() + " is present in the diagram.", clsDiagram.getClass(gameClass.getId()), gameClass);
 
-        UMLClassifier cls4 = new UMLClass("Class4");
+        UUID mainMethodID = gameClass.addMethod("main", "void");
+        Assert.assertEquals("kok", gameClass.getMethod(mainMethodID), )
+
+        UMLClass loaderClass = new UMLClass("Loader");
+        clsDiagram.addClass(loaderClass);
+
+        UUID loadMethodID = loaderClass.addMethod("load_world", "void");
+        UUID generateMethodID = loaderClass.addMethod("generate_map", "void");
+
+        clsDiagram.createRelation("relation1", gameClass, loaderClass);
 
 
     }
