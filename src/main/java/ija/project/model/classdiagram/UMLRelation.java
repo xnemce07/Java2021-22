@@ -8,8 +8,8 @@ public class UMLRelation extends UMLElement {
     private UMLInterface endItf;
 
     public enum relationType {
-        ASOCIATION,
-        AGREGATION,
+        ASSOCIATION,
+        AGGREGATION,
         COMPOSITION,
         GENERALIZATION
     }
@@ -20,11 +20,11 @@ public class UMLRelation extends UMLElement {
         endItf = endInterface;
     }
 
-    public UMLInterface getStartItf(){
+    public UMLInterface getStartInterface(){
         return startItf;
     }
 
-    public UMLInterface getEndItf(){
+    public UMLInterface getEndInterface(){
         return endItf;
     }
 
