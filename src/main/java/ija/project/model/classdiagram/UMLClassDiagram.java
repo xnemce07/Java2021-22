@@ -14,7 +14,7 @@ public class UMLClassDiagram {
     // Create an instance of itself at the time of calss loading
     public static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
 
-    private List<UMLClassifier> classList = new ArrayList<UMLClassifier>();
+    private List<UMLClassifier> classifierList = new ArrayList<>();
 
     // Private constructor to avoid instatiation
     private UMLClassDiagram() {
@@ -24,21 +24,38 @@ public class UMLClassDiagram {
         return classDiagramInstance;
     }
 
-    public List<UMLClassifier> getClasses() {
-        return Collections.unmodifiableList(classList);
+    public List<UMLClassifier> getClassifierList() {
+        return Collections.unmodifiableList(classifierList);
     }
 
-    public UMLClassifier getClass(UUID id) {
-        for (UMLClassifier umlClass : classList) {
-            if (umlClass.getId() == id) {
-                return umlClass;
+    public UMLClassifier getClassifier(UUID id) {
+        for (UMLClassifier umlClassifier : classifierList) {
+            if (umlClassifier.getId() == id) {
+                return umlClassifier;
             }
         }
         return null;
     }
 
     public void addClass(UMLClass umlClass) {
-        classList.add(umlClass);
+        classifierList.add(umlClass);
+    }
+
+    public void addInterface(UMLInterface umlInterface){
+        classifierList.add(umlInterface);
+    }
+
+    public void removeClassifier(UMLClassifier umlClassifier){
+        classifierList.remove(umlClassifier);
+    }
+
+    /**
+     * Removes a classifier from the Class Diagram using it's ID
+     * @param id ID of the classifier
+     */
+    public void removeClassifier(UUID id){
+        UMLClassifier rmClass = getClassifier(id);
+        classifierList.remove(rmClass);
     }
 
     // TODO: Unless we want to be able to add multiple calsses of the same name
@@ -51,14 +68,14 @@ public class UMLClassDiagram {
      */
     public UMLClass createClass(String className) {
         // We'll throw this out if we decide that we wanna be able to cereate two calsses of the same name
-        for (UMLClassifier umlClass : classList) {
+        for (UMLClassifier umlClass : classifierList) {
             if (umlClass.getName().equals(className)) {
                 return null;
             }
         }
 
         UMLClass newClass = new UMLClass(className);
-        classList.add(newClass);
+        classifierList.add(newClass);
         return newClass;
     }
 }
