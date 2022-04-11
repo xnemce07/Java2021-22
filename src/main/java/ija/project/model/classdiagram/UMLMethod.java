@@ -1,8 +1,7 @@
 
 package ija.project.model.classdiagram;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class UMLMethod extends UMLAttribute{

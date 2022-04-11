@@ -5,7 +5,7 @@ import ija.project.model.UMLElement;
 public class UMLType extends UMLElement{
 
 
-    private Boolean isUserDefined;
+    private final Boolean isUserDefined;
 
 
     public UMLType(String name, Boolean isUserDefined){

@@ -9,7 +9,7 @@ import ija.project.model.classdiagram.exceptions.NameUnavailableException;
 
 public class UMLInterface extends UMLType {
 
-    private List<UMLMethod> methodList = new ArrayList<UMLMethod>();
+    private final List<UMLMethod> methodList = new ArrayList<>();
 
     public UMLInterface(String name){
         super(name, true);
@@ -85,7 +85,7 @@ public class UMLInterface extends UMLType {
 
     public UMLMethod getMethod(String name){
         for (UMLMethod method:methodList){
-            if (method.getName() == name){
+            if (method.getName().equals(name)){
                 return method;
             }
         }

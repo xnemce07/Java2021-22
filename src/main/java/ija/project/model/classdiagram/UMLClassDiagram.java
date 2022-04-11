@@ -17,9 +17,9 @@ public class UMLClassDiagram {
     // Create an instance of itself at the time of class loading
     public static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
 
-    private List<UMLInterface> interfaceList = new ArrayList<>();
-    private List<UMLClass> classList = new ArrayList<>();
-    private List<UMLRelation> relationList = new ArrayList<>();
+    private final List<UMLInterface> interfaceList = new ArrayList<>();
+    private final List<UMLClass> classList = new ArrayList<>();
+    private final List<UMLRelation> relationList = new ArrayList<>();
 
     public UMLClassDiagram getInstance(){
         return classDiagramInstance;
@@ -155,6 +155,10 @@ public class UMLClassDiagram {
     // ========================================================================= //
     //                                 UML RELATIONS                             //
     // ========================================================================= //
+
+    public List<UMLRelation> getRelationList(){
+        return Collections.unmodifiableList(relationList);
+    }
 
     public UMLRelation createRelation(String name, UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
         UMLInterface startInterface = getById(startInterfaceId);

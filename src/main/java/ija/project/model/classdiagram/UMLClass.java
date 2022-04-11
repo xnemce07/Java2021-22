@@ -8,7 +8,7 @@ import java.util.UUID;
 import ija.project.model.classdiagram.exceptions.NameUnavailableException;
 
 public class UMLClass extends UMLInterface{
-    private List<UMLAttribute> attributeList = new ArrayList<>();
+    private final List<UMLAttribute> attributeList = new ArrayList<>();
 
     public UMLClass(String name) {
         super(name);
@@ -30,6 +30,9 @@ public class UMLClass extends UMLInterface{
      * @throws NameUnavailableException when name is not available
      */
     public UMLAttribute createAttribute(String name, String type) throws NameUnavailableException{
+        if (attributeExists(name)){
+            throw new NameUnavailableException(name);
+        }
         UMLAttribute attr = new UMLAttribute(name, type);
         attributeList.add(attr);
         return attr;
@@ -43,6 +46,9 @@ public class UMLClass extends UMLInterface{
      * @throws NameUnavailableException when name is not available
      */
     public UMLAttribute createAttribute(String name, UMLType type) throws NameUnavailableException{
+        if (attributeExists(name)){
+            throw new NameUnavailableException(name);
+        }
         UMLAttribute attr = new UMLAttribute(name, type);
         attributeList.add(attr);
         return attr;
@@ -79,7 +85,7 @@ public class UMLClass extends UMLInterface{
 
     public UMLAttribute getAttribute(String name){
         for (UMLAttribute umlAttribute : attributeList) {
-            if(umlAttribute.getName() == name){
+            if(umlAttribute.getName().equals(name)){
                 return umlAttribute;
             }
         }
