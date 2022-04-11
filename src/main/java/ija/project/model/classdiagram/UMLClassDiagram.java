@@ -1,6 +1,7 @@
 package ija.project.model.classdiagram;
 
 import ija.project.model.classdiagram.exceptions.NameUnavailableException;
+import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,15 @@ public class UMLClassDiagram {
         }
 
         return null;
+    }
+
+    private UMLInterface getById(UUID id){
+        UMLInterface find = getInterface(id);
+        if (find == null){
+            return getUMLClass(id);
+        }else{
+        return find;
+        }
     }
 
     private boolean nameTaken(String name){
@@ -121,12 +131,29 @@ public class UMLClassDiagram {
     }
 
     public void removeClass(UUID id){
+        UMLClass toDelete = getUMLClass(id);
+        relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
         classList.remove(getUMLClass(id));
     }
 
+    public void removeInterface(UUID id){
+        UMLInterface toDelete = getInterface(id);
+        relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
+        interfaceList.remove(toDelete);
+    }
 
-    public UMLRelation createRelation(String name, UUID startInterfaceId, UUID endInterfaceId){
-        //TODO Reorganise methods | finish method implementations for Relations | Refactor method names
-        return null;
+
+    public UMLRelation createRelation(String name, UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
+        UMLInterface startInterface = getById(startInterfaceId);
+        UMLInterface endInterface = getById(endInterfaceId);
+        if (startInterface == null){
+            throw new UUIDNotFoundException(startInterfaceId);
+        }
+        if(endInterface == null){
+            throw new UUIDNotFoundException(endInterfaceId);
+        }
+        UMLRelation rel = new UMLRelation(name,startInterface,endInterface);
+        relationList.add(rel);
+        return rel;
     }
 }
