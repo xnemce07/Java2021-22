@@ -1,7 +1,5 @@
 package ija.project.model.classdiagram;
 
-import ija.project.model.UMLElement;
-
 public class UMLAttribute extends UMLElement{
 
 

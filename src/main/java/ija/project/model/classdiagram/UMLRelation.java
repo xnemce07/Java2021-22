@@ -1,7 +1,5 @@
 package ija.project.model.classdiagram;
 
-import ija.project.model.UMLElement;
-
 public class UMLRelation extends UMLElement {
 
     private UMLInterface startItf;

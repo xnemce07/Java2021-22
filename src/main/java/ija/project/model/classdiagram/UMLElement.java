@@ -1,4 +1,4 @@
-package ija.project.model;
+package ija.project.model.classdiagram;
 
 import java.util.Observable;
 import java.util.UUID;

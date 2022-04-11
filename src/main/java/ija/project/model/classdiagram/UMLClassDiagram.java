@@ -15,13 +15,13 @@ import java.util.UUID;
  */
 public class UMLClassDiagram {
     // Create an instance of itself at the time of class loading
-    public static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
+    private static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
 
     private final List<UMLInterface> interfaceList = new ArrayList<>();
     private final List<UMLClass> classList = new ArrayList<>();
     private final List<UMLRelation> relationList = new ArrayList<>();
 
-    public UMLClassDiagram getInstance(){
+    public static UMLClassDiagram getInstance(){
         return classDiagramInstance;
     }
 
@@ -41,7 +41,9 @@ public class UMLClassDiagram {
         if(nameTaken(name)){
             throw new NameUnavailableException(name);
         }
-        return new UMLClass(name);
+        UMLClass cls = new UMLClass(name);
+        classList.add(cls);
+        return cls;
     }
 
     public UMLClass createClass(){
@@ -55,7 +57,9 @@ public class UMLClassDiagram {
             counter++;
         }
 
-        return new UMLClass(potentialName);
+        UMLClass cls = new UMLClass(potentialName + nameCounter);
+        classList.add(cls);
+        return cls;
     }
 
     public UMLClass getUMLClass(UUID id){
@@ -94,7 +98,9 @@ public class UMLClassDiagram {
             throw new NameUnavailableException(name);
         }
 
-        return new UMLInterface(name);
+        UMLInterface itf = new UMLInterface(name);
+        interfaceList.add(itf);
+        return itf;
     }
 
     public UMLInterface createInterface(){
@@ -108,7 +114,9 @@ public class UMLClassDiagram {
             counter++;
         }
 
-        return new UMLInterface(potentialName);
+        UMLInterface itf = new UMLInterface(potentialName + nameCounter);
+        interfaceList.add(itf);
+        return itf;
     }
 
     public UMLInterface getInterface(UUID id){
@@ -148,7 +156,7 @@ public class UMLClassDiagram {
         }
     }
 
-    private boolean nameTaken(String name){
+    public boolean nameTaken(String name){
         return (getUMLClass(name) != null || getInterface(name) != null);
     }
 
