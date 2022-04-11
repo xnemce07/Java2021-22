@@ -19,6 +19,10 @@ public class UMLInterface extends UMLType {
     //                                UML METHODS                                //
     // ========================================================================= //
 
+    public List<UMLMethod> getMethodList(){
+        return Collections.unmodifiableList(methodList);
+    }
+
     /**
      * Create and add method with type, that is not user defined
      * @param name Name of the method
@@ -33,13 +37,13 @@ public class UMLInterface extends UMLType {
         UMLMethod method = new UMLMethod(name, type);
         methodList.add(method);
         return method;
-    } 
+    }
 
     /**
      * Create and add method with type that already exists
      * @param name Name of the method
      * @param type Type of the method
-     * @return UUID of created method 
+     * @return UUID of created method
      * @throws NameUnavailableException If name is already taken.
      */
     public UMLMethod createMethod(String name, UMLType type) throws NameUnavailableException{
@@ -51,26 +55,13 @@ public class UMLInterface extends UMLType {
         return method;
     }
 
-    public UMLMethod getMethodByName(String name){
-        for (UMLMethod method:methodList){
-            if (method.getName() == name){
-                return method;
-            }
-        }
-        return null;
-    }
-
-    private boolean methodExists(String name){
-        return getMethodByName(name) != null;
-    }
-
     public UMLMethod createMethod(){
         String potentialName = "New method";
         String nameCounter = "";
         int counter = 1;
         while(methodExists(potentialName + nameCounter)){
             nameCounter = "(" + counter + ")";
-            counter++; 
+            counter++;
         }
 
         UMLMethod method = new UMLMethod(potentialName + nameCounter, "");
@@ -92,16 +83,25 @@ public class UMLInterface extends UMLType {
         return null;
     }
 
+    public UMLMethod getMethod(String name){
+        for (UMLMethod method:methodList){
+            if (method.getName() == name){
+                return method;
+            }
+        }
+        return null;
+    }
+
+    private boolean methodExists(String name){
+        return getMethod(name) != null;
+    }
+
     /**
      * Remove method by UUID
      * @param id UUID
      */
     public void removeMethod(UUID id){
         methodList.remove(getMethod(id));
-    }
-
-    public List<UMLMethod> getMethodList(){
-        return Collections.unmodifiableList(methodList);
     }
 
 }

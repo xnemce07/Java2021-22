@@ -5,11 +5,22 @@ import java.util.UUID;
 
 public class UMLElement extends Observable {
 
+
     private String name;
     private UUID id = UUID.randomUUID();
 
+
     public UMLElement(String name){
         this.name = name;
+    }
+
+
+    /**
+     * Get name of the element
+     * @return Name
+     */
+    public String getName(){
+        return name;
     }
 
     /**
@@ -20,13 +31,7 @@ public class UMLElement extends Observable {
         this.name = name;
     }
 
-    /**
-     * Get name of the element
-     * @return Name
-     */
-    public String getName(){
-        return name;
-    }
+
 
     /**
      * Get UUID of the element

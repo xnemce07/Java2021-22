@@ -4,8 +4,10 @@ import ija.project.model.UMLElement;
 
 public class UMLAttribute extends UMLElement{
 
+
     private UMLType type;
     private AccessModifier accessModifier = AccessModifier.PRIVATE;
+
 
     /**
      * Enum with all possible access modifiers
@@ -16,6 +18,7 @@ public class UMLAttribute extends UMLElement{
         PROTECTED,
         PACKAGE
     }
+
 
     public UMLAttribute(String name, String type) {
         super(name);
@@ -48,13 +51,6 @@ public class UMLAttribute extends UMLElement{
         this.type = type;
     }
 
-    /**
-     * Set accessibility modifier
-     * @param accessModifier Accessibility modifier
-     */
-    public void setAccessModifier(AccessModifier accessModifier){
-        this.accessModifier = accessModifier;
-    }
 
     /**
      * Get accessibility modifier
@@ -63,5 +59,14 @@ public class UMLAttribute extends UMLElement{
     public AccessModifier getAccessModifier(){
         return accessModifier;
     }
+
+    /**
+     * Set accessibility modifier
+     * @param accessModifier Accessibility modifier
+     */
+    public void setAccessModifier(AccessModifier accessModifier){
+        this.accessModifier = accessModifier;
+    }
+
 
 }
