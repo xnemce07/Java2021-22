@@ -104,6 +104,20 @@ public class UMLClass extends UMLInterface{
     public void removeAttribute(UUID id){
         attributeList.remove(getAttribute(id));
     }
+    
+    /**
+     * 
+     * @param attribute
+     * @param name
+     * @throws NameUnavailableException
+     */
+    public void setAttributeName(UUID attrId, String name) throws NameUnavailableException{
+        if(attributeExists(name)){
+            throw new NameUnavailableException(name);
+        }
+
+        getAttribute(attrId).setName(name);
+    }
 
 
 }

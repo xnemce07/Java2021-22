@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import javax.swing.plaf.InternalFrameUI;
+
 /**
  * Represents the entire class diagram. Since there will always be
  * exactly one of these at any given time, and the application is always
@@ -168,6 +170,15 @@ public class UMLClassDiagram {
         return Collections.unmodifiableList(relationList);
     }
 
+    public UMLRelation getRelation(UUID id){
+        for (UMLRelation umlRelation : relationList) {
+            if(umlRelation.getId().equals(id)){
+                return umlRelation;
+            }
+        }
+        return null;
+    }
+
     public UMLRelation createRelation(String name, UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
         UMLInterface startInterface = getById(startInterfaceId);
         UMLInterface endInterface = getById(endInterfaceId);
@@ -182,7 +193,18 @@ public class UMLClassDiagram {
         return rel;
     }
 
+    public UMLRelation createRelation(UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
+        return createRelation("", startInterfaceId, endInterfaceId);
+    }
+
     public void removeRelation(UUID id){
         relationList.removeIf(r -> r.getId() == id);
+    }
+
+    // temp clear
+    public void clearDiagram(){
+        classList.clear();
+        interfaceList.clear();
+        relationList.clear();
     }
 }
