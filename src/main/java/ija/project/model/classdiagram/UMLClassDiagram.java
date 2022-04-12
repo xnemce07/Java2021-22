@@ -1,14 +1,16 @@
+/**
+* Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
+* Date: 12.4.2023
+*/
+
 package ija.project.model.classdiagram;
 
-import ija.project.model.classdiagram.exceptions.NameUnavailableException;
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
-import javax.swing.plaf.InternalFrameUI;
 
 /**
  * Represents the entire class diagram. Since there will always be
@@ -23,6 +25,7 @@ public class UMLClassDiagram {
     private final List<UMLClass> classList = new ArrayList<>();
     private final List<UMLRelation> relationList = new ArrayList<>();
 
+    
     public static UMLClassDiagram getInstance(){
         return classDiagramInstance;
     }
@@ -59,17 +62,6 @@ public class UMLClassDiagram {
      * @return Instance of the new class
      */
     public UMLClass createClass(){
-        /*String potentialName = "New Class";
-        String nameCounter = "";
-
-        int counter = 1;
-
-        while(nameTaken(potentialName + nameCounter)){
-            nameCounter = "(" + counter + ")";
-            counter++;
-        }
-
-        UMLClass cls = new UMLClass(potentialName + nameCounter);*/
         UMLClass cls = new UMLClass("New Class");
         classList.add(cls);
         return cls;
@@ -80,30 +72,21 @@ public class UMLClassDiagram {
      * @param id UUID
      * @return Instance of the class, null if none was found
      */
-    public UMLClass getUMLClass(UUID id){
+    public UMLClass getUMLClass(UUID id)throws UUIDNotFoundException{
         for (UMLClass umlClass : classList) {
             if(umlClass.getId().equals(id)){
                 return umlClass;
             }
         }
-        return null;
+        throw new UUIDNotFoundException(id);
     }
-
-    /*public UMLClass getUMLClass(String name){
-        for (UMLClass umlClass : classList){
-            if(umlClass.getName().equals(name)){
-                return umlClass;
-            }
-        }
-        return null;
-    }*/
 
     /**
      * Remove class with specified UUID
      * @param id UUID
      */
     public void removeClass(UUID id){
-        relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
+        relationList.removeIf(r -> (r.getStartNode().getId() == id || r.getEndNode().getId() == id));
         classList.removeIf(c -> c.getId() == id);
     }
 
@@ -113,58 +96,53 @@ public class UMLClassDiagram {
 
     /**
      * Get list of all interfaces
-     * @return
+     * @return List of interfaces
      */
     public List<UMLInterface> getInterfaceList(){
         return Collections.unmodifiableList(interfaceList);
     }
 
+    /**
+     * Creates an interface with specified name and adds it into the diagram
+     * @param name Interface name
+     * @return Interface instance
+     */
     public UMLInterface createInterface(String name){
-
-
         UMLInterface itf = new UMLInterface(name);
         interfaceList.add(itf);
         return itf;
     }
 
+    /**
+     * Creates an interface with a default name and adds it into the diagram
+     * @return Interface instance
+     */
     public UMLInterface createInterface(){
-        /*String potentialName = "New Interface";
-        String nameCounter = "";
-
-        int counter = 1;
-
-        while(nameTaken(potentialName + nameCounter)){
-            nameCounter = "(" + counter + ")";
-            counter++;
-        }
-
-        UMLInterface itf = new UMLInterface(potentialName + nameCounter);*/
         UMLInterface itf = new UMLInterface("New Interface");
         interfaceList.add(itf);
         return itf;
     }
 
-    public UMLInterface getInterface(UUID id){
+    /**
+     * Gets interface instance with the specified UUID
+     * @param id Interface UUID
+     * @return Interface instnace if it exists, otherwise returns null
+     */
+    public UMLInterface getInterface(UUID id) throws UUIDNotFoundException{
         for (UMLInterface umlInterface : interfaceList) {
             if(umlInterface.getId().equals(id)){
                 return umlInterface;
             }
         }
-        return null;
+        throw new UUIDNotFoundException(id);
     }
 
-    /*public UMLInterface getInterface(String name){
-        for (UMLInterface umlInterface : interfaceList){
-            if(umlInterface.getName().equals(name)){
-                return umlInterface;
-            }
-        }
-
-        return null;
-    }*/
-
+    /**
+     * Removes an interface with the specified UUID from the diagram
+     * @param id Interface UUID
+     */
     public void removeInterface(UUID id){
-        relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
+        relationList.removeIf(r -> (r.getStartNode().getId() == id || r.getEndNode().getId() == id));
         interfaceList.removeIf(i -> i.getId() == id);
     }
 
@@ -172,8 +150,13 @@ public class UMLClassDiagram {
     //                           UML CLASSES + INTERFACES                        //
     // ========================================================================= //
 
-    private UMLInterface getById(UUID id){
-        UMLInterface find = getInterface(id);
+    /**
+     * Get either an Interface or a Class with the specidfied UUID
+     * @param id Interface or Class UUID
+     * @return Interface or Class instance if found, otherwise returns null
+     */
+    private UMLClassDiagramNode getById(UUID id)throws UUIDNotFoundException{
+        UMLClassDiagramNode find = getInterface(id);
         if (find == null){
             return getUMLClass(id);
         }else{
@@ -181,26 +164,23 @@ public class UMLClassDiagram {
         }
     }
 
-    public void clearDiagram(){
-        classList.clear();
-        interfaceList.clear();
-        relationList.clear();
-    }
-
-/*
-    public boolean nameTaken(String name){
-        return (getUMLClass(name) != null || getInterface(name) != null);
-    }
-*/
-
     // ========================================================================= //
-    //                                 UML RELATIONS                             //
+    //                                UML RELATIONS                              //
     // ========================================================================= //
 
+    /**
+     * Get list of all Relations
+     * @return Unmodifiable list of all Relations
+     */
     public List<UMLRelation> getRelationList(){
         return Collections.unmodifiableList(relationList);
     }
 
+    /**
+     * Get Relation instance with the specified UUID
+     * @param id Relation UUID
+     * @return Relation instance if found, otherwise returns null
+     */
     public UMLRelation getRelation(UUID id){
         for (UMLRelation umlRelation : relationList) {
             if(umlRelation.getId().equals(id)){
@@ -210,26 +190,48 @@ public class UMLClassDiagram {
         return null;
     }
 
-    public UMLRelation createRelation(String name, UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
-        UMLInterface startInterface = getById(startInterfaceId);
-        UMLInterface endInterface = getById(endInterfaceId);
-        if (startInterface == null){
-            throw new UUIDNotFoundException(startInterfaceId);
-        }
-        if(endInterface == null){
-            throw new UUIDNotFoundException(endInterfaceId);
-        }
-        UMLRelation rel = new UMLRelation(name,startInterface,endInterface);
+    /**
+     * Creates and adds to the diagram a Relation with specified Start interface, End interface and name
+     * @param name Relation name
+     * @param startNodeId Start node
+     * @param endNodeId End node
+     * @return Relation instance
+     * @throws UUIDNotFoundException in case either of the endpoints don't exist
+     */
+    public UMLRelation createRelation(String name, UUID startNodeId, UUID endNodeId) throws UUIDNotFoundException{
+        UMLRelation rel = new UMLRelation(name,getById(startNodeId),getById(endNodeId));
         relationList.add(rel);
         return rel;
     }
 
-    public UMLRelation createRelation(UUID startInterfaceId, UUID endInterfaceId) throws UUIDNotFoundException{
-        return createRelation("", startInterfaceId, endInterfaceId);
+    /**
+     * Creates and adds to the diagram a Relation with default name and specified Start interface and End interface
+     * @param startNodeId Start interface
+     * @param endNodeId End interface
+     * @return Relation instance
+     * @throws UUIDNotFoundException in case either of the endpoints don't exist
+     */
+    public UMLRelation createRelation(UUID startNodeId, UUID endNodeId) throws UUIDNotFoundException{
+        return createRelation("", startNodeId, endNodeId);
     }
 
+    /**
+     * Removes a Relation with the specified UUID from the diagram
+     * @param id Relation UUID
+     */
     public void removeRelation(UUID id){
         relationList.removeIf(r -> r.getId() == id);
+    }
+
+    // ========================================================================= //
+    // ========================================================================= //
+    /**
+     * Clears all diagram element lists
+     */
+    public void clearDiagram(){
+        classList.clear();
+        interfaceList.clear();
+        relationList.clear();
     }
 
 

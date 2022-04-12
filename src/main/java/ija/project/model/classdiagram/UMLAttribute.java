@@ -1,5 +1,12 @@
+/**
+* Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
+* Date: 12.4.2023
+*/
 package ija.project.model.classdiagram;
 
+/**
+ * Class representing an attribute of a class
+ */
 public class UMLAttribute extends UMLElement{
 
 
@@ -17,7 +24,6 @@ public class UMLAttribute extends UMLElement{
         PACKAGE
     }
 
-
     public UMLAttribute(String name, String type) {
         super(name);
         this.type = UMLType.forName(type);
@@ -29,16 +35,20 @@ public class UMLAttribute extends UMLElement{
     }
 
 
+    /**
+     * Get argument type
+     * @return argument type instance
+     */
     public UMLType getType() {
         return type;
     }
 
     /**
-     * Set type to UMLClassifier with specified name
-     * @param name Name
+     * Set argument type
+     * @param type argument type
      */
-    public void setType(String name){
-        type = UMLType.forName(name);
+    public void setType(String type){
+        this.type = UMLType.forName(type);
     }
 
     /**

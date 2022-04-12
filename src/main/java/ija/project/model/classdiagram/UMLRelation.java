@@ -1,9 +1,16 @@
+/**
+* Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
+* Date: 12.4.2023
+*/
 package ija.project.model.classdiagram;
 
+/**
+ * Class representing a relation between two class diagram nodes
+ */
 public class UMLRelation extends UMLElement {
 
-    private UMLInterface startItf;
-    private UMLInterface endItf;
+    private UMLClassDiagramNode startItf;
+    private UMLClassDiagramNode endItf;
 
     public enum relationType {
         ASSOCIATION,
@@ -12,17 +19,17 @@ public class UMLRelation extends UMLElement {
         GENERALIZATION
     }
 
-    public UMLRelation(String name, UMLInterface startInterface, UMLInterface endInterface) {
+    public UMLRelation(String name, UMLClassDiagramNode startNode, UMLClassDiagramNode endNode) {
         super(name);
-        startItf = startInterface;
-        endItf = endInterface;
+        startItf = startNode;
+        endItf = endNode;
     }
 
     /**
      * Getter for beginning interface
      * @return Beginning interface
      */
-    public UMLInterface getStartInterface(){
+    public UMLClassDiagramNode getStartNode(){
         return startItf;
     }
 
@@ -30,24 +37,24 @@ public class UMLRelation extends UMLElement {
      * Getter for ending interface
      * @return Ending interface
      */
-    public UMLInterface getEndInterface(){
+    public UMLClassDiagramNode getEndNode(){
         return endItf;
     }
 
     /**
      * Setter for starting interface
-     * @param newStartInterface Starting interface
+     * @param newStartNode Starting interface
      */
-    public void setStartInterface(UMLInterface newStartInterface){
-        startItf = newStartInterface;
+    public void setStartNode(UMLClassDiagramNode newStartNode){
+        startItf = newStartNode;
     }
 
     /**
      * Setter for ending interface
-     * @param newEndInterface Ending interface
+     * @param newEndNode Ending interface
      */
-    public void setEndInterface(UMLInterface newEndInterface){
-        endItf = newEndInterface;
+    public void setEndNode(UMLClassDiagramNode newEndNode){
+        endItf = newEndNode;
     }
 
 }

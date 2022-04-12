@@ -6,7 +6,7 @@
 
 package ija.project;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
+// import static org.junit.jupiter.api.Assertions.assertAll;
 
 import javax.print.attribute.standard.DialogOwner;
 
@@ -110,11 +110,11 @@ public class ClassDiagramTest {
             UMLRelation rel1to2 = dia.createRelation("1to2", cls1.getId(), cls2.getId());
             UMLRelation rel2to3 = dia.createRelation("2to3", cls2.getId(), cls3.getId());
 
-            Assert.assertTrue("Relation \"" + rel1to2.getName() + "\" not linked properly", rel1to2.getStartInterface().equals(cls1));
-            Assert.assertTrue("Relation \"" + rel1to2.getName() + "\" not linked properly", rel1to2.getEndInterface().equals(cls2));
+            Assert.assertTrue("Relation \"" + rel1to2.getName() + "\" not linked properly", rel1to2.getStartNode().equals(cls1));
+            Assert.assertTrue("Relation \"" + rel1to2.getName() + "\" not linked properly", rel1to2.getEndNode().equals(cls2));
 
-            Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getStartInterface().equals(cls2));
-            Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getEndInterface().equals(cls3));
+            Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getStartNode().equals(cls2));
+            Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getEndNode().equals(cls3));
         } catch (UUIDNotFoundException e){
             e.printStackTrace();
         }

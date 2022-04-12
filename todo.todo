@@ -1,0 +1,14 @@
+Rework:
+    - Atomize Classes
+    - Atomize Interfaces
+    - Rename interfaces
+
+Tests:
+    - write tests
+
+Docu:
+    - properly import javadoc
+
+Maven:
+    - figure out how to pack into the jar
+    - make sure "mvn test" works
