@@ -209,12 +209,14 @@ public class UMLClassDiagram {
      * @return Interface or Class instance if found, otherwise returns null
      */
     private UMLClassDiagramNode getById(UUID id)throws UUIDNotFoundException{
-        UMLClassDiagramNode find = getInterface(id);
-        if (find == null){
-            return getUMLClass(id);
-        }else{
-            return find;
+        UMLClassDiagramNode find;
+
+        try{
+            find = getUMLClass(id);
+        }catch(UUIDNotFoundException e){
+            find = getInterface(id);
         }
+        return find;
     }
 
     // ========================================================================= //

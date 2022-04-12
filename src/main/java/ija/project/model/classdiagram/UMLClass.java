@@ -39,22 +39,22 @@ public class UMLClass extends UMLClassDiagramNode{
      * @param type Type of the attribute
      * @return Instance of created attribute
      */
-    public UMLAttribute createAttribute(String name, String type){
+    public UUID createAttribute(String name, String type){
         UMLAttribute attribute = new UMLAttribute(name, type);
         support.firePropertyChange("attributeList", null, attribute);
         attributeList.add(attribute);
-        return attribute;
+        return attribute.getId();
     }
 
     /**
      * Create and add attribute with default properties
      * @return Instance of created attribute
      */
-    public UMLAttribute createAttribute(){
+    public UUID createAttribute(){
         UMLAttribute attribute = new UMLAttribute("New attribute","");
         support.firePropertyChange("attributeList", null, attribute);
         attributeList.add(attribute);
-        return attribute;
+        return attribute.getId();
     }
 
     /**
