@@ -6,17 +6,13 @@
 
 package ija.project;
 
-import java.util.UUID;
-
-// import static org.junit.jupiter.api.Assertions.assertAll;
-
-
 
 import org.junit.Assert;
 import org.junit.After;
 import org.junit.Test;
 
 
+import java.util.UUID;
 import ija.project.model.classdiagram.UMLClass;
 import ija.project.model.classdiagram.UMLClassDiagram;
 import ija.project.model.classdiagram.UMLInterface;
@@ -60,8 +56,8 @@ public class ClassDiagramTest {
         UMLClass cls2 = dia.createClass();
         UMLClass cls3 = dia.createClass();
 
-        UMLRelation rel1to2 = dia.createRelation("1to2", cls1.getId(), cls2.getId());
-        UMLRelation rel2to3 = dia.createRelation("2to3", cls2.getId(), cls3.getId());
+        dia.createRelation("1to2", cls1.getId(), cls2.getId());
+        dia.createRelation("2to3", cls2.getId(), cls3.getId());
 
         dia.removeClass(cls2.getId());
         Assert.assertEquals("Relations don't delete with corresponing nodes",dia.getRelationList().size(), 0);
@@ -88,6 +84,29 @@ public class ClassDiagramTest {
 
         Assert.assertEquals(itf1.getMethodName(meth2Id), "meth2");
         Assert.assertEquals(itf1.getMethodTypeName(meth2Id), "");
+    }
+
+    @Test
+    public void NodeRemovalTest(){
+        UMLClass cls1 = dia.createClass();
+        UMLClass cls2 = dia.createClass();
+        UMLInterface itf1 = dia.createInterface();
+        UMLInterface itf2 = dia.createInterface();
+
+        Assert.assertEquals(dia.getInterfaceList().size(), 2);
+        Assert.assertEquals(dia.getClassList().size(), 2);
+
+        dia.removeClass(cls1.getId());
+        dia.removeInterface(itf1.getId());
+
+        Assert.assertEquals(dia.getInterfaceList().size(), 1);
+        Assert.assertEquals(dia.getClassList().size(), 1);
+
+        dia.removeClass(cls2.getId());
+        dia.removeInterface(itf2.getId());
+
+        Assert.assertEquals(dia.getInterfaceList().size(), 0);
+        Assert.assertEquals(dia.getClassList().size(), 0);
     }
 
     @Test
@@ -119,15 +138,35 @@ public class ClassDiagramTest {
         cls.createMethod();
         UUID attr2 = cls.createAttribute();
         
-        Assert.assertEquals(cls.getAttributeList().size(), 2);
+        UMLClass clsGet = dia.getUMLClass(cls.getId());
+
+        Assert.assertEquals(clsGet.getAttributeList().size(), 2);
 
         cls.removeAttribute(attr);
 
-        Assert.assertEquals(cls.getAttributeList().size(), 1);
+        Assert.assertEquals(clsGet.getAttributeList().size(), 1);
 
         cls.removeAttribute(attr2);
 
-        Assert.assertEquals(cls.getAttributeList().size(), 0);
-        
+        Assert.assertEquals(clsGet.getAttributeList().size(), 0);
+    }
+
+    @Test
+    public void MethodRemovalTest() throws UUIDNotFoundException{
+        UMLClass cls = dia.createClass();
+        UUID meth1 = cls.createMethod();
+        UUID meth2 = cls.createMethod();
+
+        UMLClass clsGet = dia.getUMLClass(cls.getId());
+
+        Assert.assertEquals(clsGet.getMethodList().size(), 2);
+
+        cls.removeMethod(meth1);
+
+        Assert.assertEquals(clsGet.getMethodList().size(), 1);
+
+        cls.removeMethod(meth2);
+
+        Assert.assertEquals(clsGet.getMethodList().size(), 0);
     }
 }
