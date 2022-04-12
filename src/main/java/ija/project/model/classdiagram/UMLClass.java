@@ -40,9 +40,10 @@ public class UMLClass extends UMLClassDiagramNode{
      * @return Instance of created attribute
      */
     public UMLAttribute createAttribute(String name, String type){
-        UMLAttribute attr = new UMLAttribute(name, type);
-        attributeList.add(attr);
-        return attr;
+        UMLAttribute attribute = new UMLAttribute(name, type);
+        support.firePropertyChange("attributeList", null, attribute);
+        attributeList.add(attribute);
+        return attribute;
     }
 
     /**
@@ -51,6 +52,7 @@ public class UMLClass extends UMLClassDiagramNode{
      */
     public UMLAttribute createAttribute(){
         UMLAttribute attribute = new UMLAttribute("New attribute","");
+        support.firePropertyChange("attributeList", null, attribute);
         attributeList.add(attribute);
         return attribute;
     }
@@ -76,7 +78,14 @@ public class UMLClass extends UMLClassDiagramNode{
      * @param id UUID
      */
     public void removeAttribute(UUID id){
-        attributeList.removeIf(a -> a.getId() == id);
+        UMLAttribute attribute = null;
+        try{
+            attribute = getAttribute(id);
+        }catch(UUIDNotFoundException e){
+            return;
+        }
+        support.firePropertyChange("attributeList", attribute , null);
+        attributeList.remove(attribute);
     }
 
 
@@ -91,6 +100,7 @@ public class UMLClass extends UMLClassDiagramNode{
      * @throws UUIDNotFoundException If UUID wasn't found
      */
     public void setAttributeName(UUID id,String name)throws UUIDNotFoundException{
+        support.firePropertyChange("attributeName", id, name);
         getAttribute(id).setName(name);
     }
     /**
@@ -104,12 +114,13 @@ public class UMLClass extends UMLClassDiagramNode{
     }
     /**
      * Sets name of type of attribute with specified UUID
-     * @param AttrId UUID of the attribute
+     * @param attrId UUID of the attribute
      * @param name New name for type
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public void setAttributeTypeName(UUID AttrId,String name)throws UUIDNotFoundException{
-        getAttribute(AttrId).getType().setName(name);
+    public void setAttributeTypeName(UUID attrId,String name)throws UUIDNotFoundException{
+        support.firePropertyChange("attributeTypeName", attrId, name);
+        getAttribute(attrId).getType().setName(name);
     }
     /**
      * Gets name of type of attribute with specified UUID
@@ -136,6 +147,7 @@ public class UMLClass extends UMLClassDiagramNode{
      * @throws UUIDNotFoundException If UUID wasn't found
      */
     public void setAttributeTypeName(UUID id,UMLAttribute.AccessModifier modifier)throws UUIDNotFoundException{
+        support.firePropertyChange("attributeAccessModifier", id, modifier);
         getAttribute(id).setAccessModifier(modifier);
     }
 }
