@@ -35,21 +35,31 @@ public class UMLClassDiagram {
     //                                 UML CLASSES                               //
     // ========================================================================= //
 
+    /**
+     * Get list of all classes in class diagram
+     * @return Unmodifiable list
+     */
     public List<UMLClass> getClassList(){
         return Collections.unmodifiableList(classList);
     }
 
-    public UMLClass createClass(String name) throws NameUnavailableException {
-        if(nameTaken(name)){
-            throw new NameUnavailableException(name);
-        }
+    /**
+     * Create and add class with specified name
+     * @param name Name of the new class
+     * @return Instance of the new class
+     */
+    public UMLClass createClass(String name){
         UMLClass cls = new UMLClass(name);
         classList.add(cls);
         return cls;
     }
 
+    /**
+     * Create and add class with default properties
+     * @return Instance of the new class
+     */
     public UMLClass createClass(){
-        String potentialName = "New Class";
+        /*String potentialName = "New Class";
         String nameCounter = "";
 
         int counter = 1;
@@ -59,11 +69,17 @@ public class UMLClassDiagram {
             counter++;
         }
 
-        UMLClass cls = new UMLClass(potentialName + nameCounter);
+        UMLClass cls = new UMLClass(potentialName + nameCounter);*/
+        UMLClass cls = new UMLClass("New Class");
         classList.add(cls);
         return cls;
     }
 
+    /**
+     * Get instance of class with specified UUID
+     * @param id UUID
+     * @return Instance of the class, null if none was found
+     */
     public UMLClass getUMLClass(UUID id){
         for (UMLClass umlClass : classList) {
             if(umlClass.getId().equals(id)){
@@ -73,15 +89,19 @@ public class UMLClassDiagram {
         return null;
     }
 
-    public UMLClass getUMLClass(String name){
+    /*public UMLClass getUMLClass(String name){
         for (UMLClass umlClass : classList){
             if(umlClass.getName().equals(name)){
                 return umlClass;
             }
         }
         return null;
-    }
+    }*/
 
+    /**
+     * Remove class with specified UUID
+     * @param id UUID
+     */
     public void removeClass(UUID id){
         relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
         classList.removeIf(c -> c.getId() == id);
@@ -91,14 +111,16 @@ public class UMLClassDiagram {
     //                                UML INTERFACES                             //
     // ========================================================================= //
 
+    /**
+     * Get list of all interfaces
+     * @return
+     */
     public List<UMLInterface> getInterfaceList(){
         return Collections.unmodifiableList(interfaceList);
     }
 
-    public UMLInterface createInterface(String name) throws NameUnavailableException{
-        if(nameTaken(name)){
-            throw new NameUnavailableException(name);
-        }
+    public UMLInterface createInterface(String name){
+
 
         UMLInterface itf = new UMLInterface(name);
         interfaceList.add(itf);
@@ -106,7 +128,7 @@ public class UMLClassDiagram {
     }
 
     public UMLInterface createInterface(){
-        String potentialName = "New Interface";
+        /*String potentialName = "New Interface";
         String nameCounter = "";
 
         int counter = 1;
@@ -116,7 +138,8 @@ public class UMLClassDiagram {
             counter++;
         }
 
-        UMLInterface itf = new UMLInterface(potentialName + nameCounter);
+        UMLInterface itf = new UMLInterface(potentialName + nameCounter);*/
+        UMLInterface itf = new UMLInterface("New Interface");
         interfaceList.add(itf);
         return itf;
     }
@@ -130,7 +153,7 @@ public class UMLClassDiagram {
         return null;
     }
 
-    public UMLInterface getInterface(String name){
+    /*public UMLInterface getInterface(String name){
         for (UMLInterface umlInterface : interfaceList){
             if(umlInterface.getName().equals(name)){
                 return umlInterface;
@@ -138,7 +161,7 @@ public class UMLClassDiagram {
         }
 
         return null;
-    }
+    }*/
 
     public void removeInterface(UUID id){
         relationList.removeIf(r -> (r.getStartInterface().getId() == id || r.getEndInterface().getId() == id));
@@ -158,9 +181,17 @@ public class UMLClassDiagram {
         }
     }
 
+    public void clearDiagram(){
+        classList.clear();
+        interfaceList.clear();
+        relationList.clear();
+    }
+
+/*
     public boolean nameTaken(String name){
         return (getUMLClass(name) != null || getInterface(name) != null);
     }
+*/
 
     // ========================================================================= //
     //                                 UML RELATIONS                             //
@@ -201,10 +232,5 @@ public class UMLClassDiagram {
         relationList.removeIf(r -> r.getId() == id);
     }
 
-    // temp clear
-    public void clearDiagram(){
-        classList.clear();
-        interfaceList.clear();
-        relationList.clear();
-    }
+
 }

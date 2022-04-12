@@ -26,13 +26,9 @@ public class UMLClass extends UMLInterface{
      * Create and add attribute with type that is not user defined
      * @param name Name of the attribute
      * @param type Type of the attribute
-     * @return UUID of created attribute
-     * @throws NameUnavailableException when name is not available
+     * @return Instance of created attribute
      */
-    public UMLAttribute createAttribute(String name, String type) throws NameUnavailableException{
-        if (attributeExists(name)){
-            throw new NameUnavailableException(name);
-        }
+    public UMLAttribute createAttribute(String name, String type){
         UMLAttribute attr = new UMLAttribute(name, type);
         attributeList.add(attr);
         return attr;
@@ -42,20 +38,20 @@ public class UMLClass extends UMLInterface{
      * Create and add attribute with type that already exists
      * @param name Name of the attribute
      * @param type Type of the attribute
-     * @return UUID of created attribute
-     * @throws NameUnavailableException when name is not available
+     * @return Instance of created attribute
      */
-    public UMLAttribute createAttribute(String name, UMLType type) throws NameUnavailableException{
-        if (attributeExists(name)){
-            throw new NameUnavailableException(name);
-        }
+    public UMLAttribute createAttribute(String name, UMLType type){
         UMLAttribute attr = new UMLAttribute(name, type);
         attributeList.add(attr);
         return attr;
     }
 
+    /**
+     * Create and add attribute with default properties
+     * @return Instance of created attribute
+     */
     public UMLAttribute createAttribute(){
-        String potentialName = "New attribute";
+        /*String potentialName = "New attribute";
         String nameCounter = "";
         int counter = 1;
         while(attributeExists(potentialName + nameCounter)){
@@ -63,7 +59,8 @@ public class UMLClass extends UMLInterface{
             counter++;
         }
 
-        UMLAttribute attribute = new UMLAttribute(potentialName + nameCounter, "");
+        UMLAttribute attribute = new UMLAttribute(potentialName + nameCounter, "");*/
+        UMLAttribute attribute = new UMLAttribute("New attribute","");
         attributeList.add(attribute);
         return attribute;
     }
@@ -83,7 +80,7 @@ public class UMLClass extends UMLInterface{
         return null;
     }
 
-    public UMLAttribute getAttribute(String name){
+    /*public UMLAttribute getAttribute(String name){
         for (UMLAttribute umlAttribute : attributeList) {
             if(umlAttribute.getName().equals(name)){
                 return umlAttribute;
@@ -91,33 +88,21 @@ public class UMLClass extends UMLInterface{
         }
 
         return null;
-    }
+    }*/
 
-    private boolean attributeExists(String name){
+    /*private boolean attributeExists(String name){
         return getAttribute(name) != null;
-    }
+    }*/
 
     /**
-     * Remove attribute by UUID
+     * Remove attribute with specified UUID
      * @param id UUID
      */
     public void removeAttribute(UUID id){
-        attributeList.remove(getAttribute(id));
+        attributeList.removeIf(a -> a.getId() == id);
     }
     
-    /**
-     * 
-     * @param attribute
-     * @param name
-     * @throws NameUnavailableException
-     */
-    public void setAttributeName(UUID attrId, String name) throws NameUnavailableException{
-        if(attributeExists(name)){
-            throw new NameUnavailableException(name);
-        }
 
-        getAttribute(attrId).setName(name);
-    }
 
 
 }
