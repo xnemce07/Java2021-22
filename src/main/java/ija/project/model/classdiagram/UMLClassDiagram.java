@@ -91,8 +91,9 @@ public class UMLClassDiagram {
      * Get instance of class with specified UUID
      * @param id UUID
      * @return Instance of the class, null if none was found
+     * @throws UUIDNotFoundException in case Class with specified UUID doesn't exist
      */
-    public UMLClass getUMLClass(UUID id)throws UUIDNotFoundException{
+    public UMLClass getUMLClass(UUID id) throws UUIDNotFoundException{
         for (UMLClass umlClass : classList) {
             if(umlClass.getId().equals(id)){
                 return umlClass;
@@ -162,6 +163,7 @@ public class UMLClassDiagram {
      * Gets interface instance with the specified UUID
      * @param id Interface UUID
      * @return Interface instnace if it exists, otherwise returns null
+     * @throws UUIDNotFoundException in case Interface with specified UUID doesn't exist
      */
     public UMLInterface getInterface(UUID id) throws UUIDNotFoundException{
         for (UMLInterface umlInterface : interfaceList) {
@@ -231,6 +233,7 @@ public class UMLClassDiagram {
      * Get Relation instance with the specified UUID
      * @param id Relation UUID
      * @return Relation instance if found, otherwise returns null
+     * @throws UUIDNotFoundException in case Relation with specified UUID doesn't exist
      */
     public UMLRelation getRelation(UUID id)throws UUIDNotFoundException{
         for (UMLRelation umlRelation : relationList) {
