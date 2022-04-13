@@ -1,6 +1,6 @@
 /**
 * Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
-* Date: 12.4.2023
+* Date: 12.4.2022
 */
 package ija.project.model.classdiagram;
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 
 /**
- * Singleton class representing a class in a class diagram
+ * Class representing a UMLClass in the Class Diagram
  */
 public class UMLClass extends UMLClassDiagramNode{
     private final List<UMLAttribute> attributeList = new ArrayList<>();
@@ -59,28 +59,28 @@ public class UMLClass extends UMLClassDiagramNode{
 
     /**
      * Get attribute by UUID
-     * @param id UUID
+     * @param attrId Attribute UUID
      * @return Attribute with specified UUID, null if none was found
      */
-    private UMLAttribute getAttribute(UUID id)throws UUIDNotFoundException{
+    private UMLAttribute getAttribute(UUID attrId)throws UUIDNotFoundException{
         for (UMLAttribute attribute : attributeList){
-            if(attribute.getId() == id){
+            if(attribute.getId() == attrId){
                 return attribute;
             }
         }
-        throw new UUIDNotFoundException(id);
+        throw new UUIDNotFoundException(attrId);
     }
 
 
 
     /**
      * Remove attribute with specified UUID
-     * @param id UUID
+     * @param attrId Attribute UUID
      */
-    public void removeAttribute(UUID id){
+    public void removeAttribute(UUID attrId){
         UMLAttribute attribute = null;
         try{
-            attribute = getAttribute(id);
+            attribute = getAttribute(attrId);
         }catch(UUIDNotFoundException e){
             return;
         }
@@ -95,26 +95,26 @@ public class UMLClass extends UMLClassDiagramNode{
 
     /**
      * Sets name of attribute with specified UUID
-     * @param id UUID
-     * @param name New name
+     * @param attrId Attribute UUID
+     * @param name New Attribute name
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public void setAttributeName(UUID id,String name)throws UUIDNotFoundException{
-        support.firePropertyChange("attributeName", id, name);
-        getAttribute(id).setName(name);
+    public void setAttributeName(UUID attrId,String name)throws UUIDNotFoundException{
+        support.firePropertyChange("attributeName", attrId, name);
+        getAttribute(attrId).setName(name);
     }
     /**
      * Gets name of attribute with specified UUID
-     * @param id UUID
-     * @return Name
+     * @param attrId UUID
+     * @return Attribute name
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public String getAttributeName(UUID id)throws UUIDNotFoundException{
-        return getAttribute(id).getName();
+    public String getAttributeName(UUID attrId)throws UUIDNotFoundException{
+        return getAttribute(attrId).getName();
     }
     /**
      * Sets name of type of attribute with specified UUID
-     * @param attrId UUID of the attribute
+     * @param attrId Attribute UUID
      * @param name New name for type
      * @throws UUIDNotFoundException If UUID wasn't found
      */
@@ -124,55 +124,57 @@ public class UMLClass extends UMLClassDiagramNode{
     }
     /**
      * Gets name of type of attribute with specified UUID
-     * @param AttrId UUID of the attribute
+     * @param attrId Attribute UUID
      * @return Name of the type
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public String getAttributeTypeName(UUID AttrId)throws UUIDNotFoundException{
-        return getAttribute(AttrId).getType().getName();
+    public String getAttributeTypeName(UUID attrId)throws UUIDNotFoundException{
+        return getAttribute(attrId).getType().getName();
     }
     /**
      * Gets access modifier of attribute with specified UUID
-     * @param id UUID of the attribute
-     * @return Acces modifier
+     * @param attrId Attribute UUID
+     * @return Access modifier
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public UMLAttribute.AccessModifier getAttributeAccessModifier(UUID id)throws UUIDNotFoundException{
-        return getAttribute(id).getAccessModifier();
+    public UMLAttribute.AccessModifier getAttributeAccessModifier(UUID attrId)throws UUIDNotFoundException{
+        return getAttribute(attrId).getAccessModifier();
     }
 
     /**
-     * Sets access modifier of a class
-     * @param id UUID of the class
+     * Sets access modifier of Attribute specified by UUID
+     * @param attrId Attribute UUID
      * @param accessModifier New access modifier
-     * @throws UUIDNotFoundException in case a class with specified UUID doesn't exist
+     * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public void setAttributeAccessModifier(UUID id,UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
-        support.firePropertyChange("attributeAccessModifier",getAttribute(id).getAccessModifier(),accessModifier);
-        getAttribute(id).setAccessModifier(accessModifier);
+    public void setAttributeAccessModifier(UUID attrId,UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
+        support.firePropertyChange("attributeAccessModifier",getAttribute(attrId).getAccessModifier(),accessModifier);
+        getAttribute(attrId).setAccessModifier(accessModifier);
     }
 
     /**
      * Sets access modifier of attribute with specified UUID
-     * @param id UUID of the attribute
+     * @param attrId UUID of the attribute
      * @param modifier New access modifer
      * @throws UUIDNotFoundException If UUID wasn't found
      */
-    public void setAttributeTypeName(UUID id,UMLAttribute.AccessModifier modifier)throws UUIDNotFoundException{
-        support.firePropertyChange("attributeAccessModifier", id, modifier);
-        getAttribute(id).setAccessModifier(modifier);
+    public void setAttributeTypeName(UUID attrId,UMLAttribute.AccessModifier modifier)throws UUIDNotFoundException{
+        support.firePropertyChange("attributeAccessModifier", attrId, modifier);
+        getAttribute(attrId).setAccessModifier(modifier);
     }
 
-    // Text UI
+    /**
+     * Prints a text representation of the Class
+     */
     public void print(){
         System.out.println("=".repeat(20));
         System.out.println("Name: " + getName());
-        // System.out.println("-".repeat(20));
         System.out.println("Attributes:");
+        
         for (UMLAttribute umlAttribute : attributeList) {
             System.out.println("  " + umlAttribute.toString());
         }
-        // System.out.println("-".repeat(20));
+
         System.out.println("Methods:");
         
         for (UMLMethod umlMethod : getMethodList()) {

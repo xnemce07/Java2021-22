@@ -1,6 +1,6 @@
 /**
 * Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
-* Date: 12.4.2023
+* Date: 12.4.2022
 */
 package ija.project.model.classdiagram;
 
@@ -52,8 +52,8 @@ public class UMLAttribute extends UMLElement{
     }
 
     /**
-     * Set type to a instance of UMLClassifier
-     * @param type UMLClassifier
+     * Set type to an instance of UMLType
+     * @param type UMLType
      */
     public void setType(UMLType type) {
         this.type = type;
@@ -76,11 +76,18 @@ public class UMLAttribute extends UMLElement{
         this.accessModifier = accessModifier;
     }
 
+    /**
+     * Prints a text representation of the Attribute
+     */
     public void print() {
-        // System.out.println(getType().getName() + " " + getName());
         System.out.println(toString());
     }
 
+    /**
+     * Returns a string representation of the Attribute
+     * 
+     * @return Attribute as a string
+     */
     public String toString() {
         String am = "";
         switch(getAccessModifier()){

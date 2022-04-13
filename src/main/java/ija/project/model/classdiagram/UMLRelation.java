@@ -26,15 +26,25 @@ public class UMLRelation extends UMLElement {
         GENERALIZATION
     }
 
-
+    /**
+     * Adds property change listener
+     * @param listener Listener instance
+     */
     public void addPropertyChangeListener(PropertyChangeListener listener){
         support.addPropertyChangeListener(listener);
     }
 
+    /**
+     * Removes property change listener
+     * @param listener Listener instance
+     */
     public void removePropertyChangeListener(PropertyChangeListener listener){
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Set name of the Relation
+     */
     public void setName(String name){
         support.firePropertyChange("name", this.getName(), name);
         super.setName(name);
@@ -49,24 +59,24 @@ public class UMLRelation extends UMLElement {
     }
 
     /**
-     * Getter for beginning interface
-     * @return Beginning interface
+     * Getter for beginning Diagram Node
+     * @return Beginning Diagram Node
      */
     public UMLClassDiagramNode getStartNode(){
         return startNode;
     }
 
     /**
-     * Getter for ending interface
-     * @return Ending interface
+     * Getter for ending Diagram Node
+     * @return Ending Diagram Node
      */
     public UMLClassDiagramNode getEndNode(){
         return endNode;
     }
 
     /**
-     * Setter for starting interface
-     * @param newStartNode Starting interface
+     * Setter for starting Diagram Node
+     * @param newStartNode Starting Diagram Node
      */
     private void setStartNode(UMLClassDiagramNode newStartNode){
         support.firePropertyChange("startNode", startNode,newStartNode);
@@ -74,8 +84,8 @@ public class UMLRelation extends UMLElement {
     }
 
     /**
-     * Setter for ending interface
-     * @param newEndNode Ending interface
+     * Setter for ending Diagram Node
+     * @param newEndNode Ending Diagram Node
      */
     private void setEndNode(UMLClassDiagramNode newEndNode){
         support.firePropertyChange("endNode", endNode,newEndNode);
@@ -100,12 +110,17 @@ public class UMLRelation extends UMLElement {
     }
     
     /**
-     * Prints a text represantation of th Relation
+     * Prints a text represantation of the Relation
      */
     public void print(){
         System.out.println(toString());
     }
 
+    /**
+     * Returns a string representation of the Relation
+     * 
+     * @return Relation as a string
+     */
     public String toString(){
         switch(getRelationType()){
             case ASSOCIATION:

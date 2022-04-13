@@ -74,7 +74,7 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
           <configuration>
-            <finalName>ija-app</finalName>
+            <finalName>ija-ui-demo</finalName>
           </configuration>
         </plugin>
         <plugin>
@@ -103,6 +103,7 @@
             <reportOutputDirectory>${project.basedir}/doc</reportOutputDirectory>
             <source>8</source>
             <target>8</target>
+            <excludePackageNames>ija.project:ija.project.model.sequencediagram</excludePackageNames>
           </configuration>
         </plugin>
 

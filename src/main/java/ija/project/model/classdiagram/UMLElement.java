@@ -1,6 +1,6 @@
 /**
 * Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
-* Date: 12.4.2023
+* Date: 12.4.2022
 */
 package ija.project.model.classdiagram;
 
@@ -42,7 +42,7 @@ public class UMLElement {
 
     /**
      * Get UUID of the element
-     * @return UUID
+     * @return Element UUID
      */
     public UUID getId() {
         return id;
