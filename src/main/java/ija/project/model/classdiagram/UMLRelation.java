@@ -4,25 +4,48 @@
 */
 package ija.project.model.classdiagram;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * Class representing a relation between two class diagram nodes
  */
 public class UMLRelation extends UMLElement {
 
-    private UMLClassDiagramNode startItf;
-    private UMLClassDiagramNode endItf;
 
-    public enum relationType {
+    private UMLClassDiagramNode startNode;
+    private UMLClassDiagramNode endNode;
+    private RelationType relationType = RelationType.ASSOCIATION;
+
+    private PropertyChangeSupport support;
+
+    public enum RelationType {
         ASSOCIATION,
         AGGREGATION,
         COMPOSITION,
         GENERALIZATION
     }
 
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        support.removePropertyChangeListener(listener);
+    }
+
+    public void setName(String name){
+        support.firePropertyChange("name", this.getName(), name);
+        super.setName(name);
+    }
+
+
     public UMLRelation(String name, UMLClassDiagramNode startNode, UMLClassDiagramNode endNode) {
         super(name);
-        startItf = startNode;
-        endItf = endNode;
+        this.startNode = startNode;
+        this.endNode = endNode;
+        support = new PropertyChangeSupport(this);
     }
 
     /**
@@ -30,7 +53,7 @@ public class UMLRelation extends UMLElement {
      * @return Beginning interface
      */
     public UMLClassDiagramNode getStartNode(){
-        return startItf;
+        return startNode;
     }
 
     /**
@@ -38,23 +61,41 @@ public class UMLRelation extends UMLElement {
      * @return Ending interface
      */
     public UMLClassDiagramNode getEndNode(){
-        return endItf;
+        return endNode;
     }
 
     /**
      * Setter for starting interface
      * @param newStartNode Starting interface
      */
-    public void setStartNode(UMLClassDiagramNode newStartNode){
-        startItf = newStartNode;
+    private void setStartNode(UMLClassDiagramNode newStartNode){
+        support.firePropertyChange("startNode", startNode,newStartNode);
+        startNode = newStartNode;
     }
 
     /**
      * Setter for ending interface
      * @param newEndNode Ending interface
      */
-    public void setEndNode(UMLClassDiagramNode newEndNode){
-        endItf = newEndNode;
+    private void setEndNode(UMLClassDiagramNode newEndNode){
+        support.firePropertyChange("endNode", endNode,newEndNode);
+        endNode = newEndNode;
     }
 
+    /**
+     * Getter for relation type
+     * @return Relation type
+     */
+    public RelationType getRelationType(){
+        return relationType;
+    }
+
+    /**
+     * Setter for relation type
+     * @param relationType new relation type
+     */
+    public void setRelationType(RelationType relationType) {
+        support.firePropertyChange("relationType",this.relationType,relationType);
+        this.relationType = relationType;
+    }
 }

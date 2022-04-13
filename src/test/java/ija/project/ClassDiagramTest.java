@@ -7,16 +7,14 @@
 package ija.project;
 
 
+import ija.project.model.classdiagram.*;
 import org.junit.Assert;
 import org.junit.After;
 import org.junit.Test;
 
 
 import java.util.UUID;
-import ija.project.model.classdiagram.UMLClass;
-import ija.project.model.classdiagram.UMLClassDiagram;
-import ija.project.model.classdiagram.UMLInterface;
-import ija.project.model.classdiagram.UMLRelation;
+
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
 /**
@@ -48,6 +46,20 @@ public class ClassDiagramTest {
 
         Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getStartNode().equals(cls2));
         Assert.assertTrue("Relation \"" + rel2to3.getName() + "\" not linked properly", rel2to3.getEndNode().equals(cls3));
+    }
+
+    @Test
+    public void RelationTypeTest() throws  UUIDNotFoundException{
+        UMLClass cls1 = dia.createClass();
+        UMLClass cls2 = dia.createClass();
+
+        UMLRelation rel = dia.createRelation("1to2", cls1.getId(), cls2.getId());
+
+        Assert.assertEquals(rel.getRelationType(), UMLRelation.RelationType.ASSOCIATION);
+
+        rel.setRelationType(UMLRelation.RelationType.AGGREGATION);
+
+        Assert.assertEquals(rel.getRelationType(), UMLRelation.RelationType.AGGREGATION);
     }
 
     @Test
@@ -118,6 +130,18 @@ public class ClassDiagramTest {
 
         Assert.assertEquals(cls.getAttributeName(attr), "newname");
         Assert.assertEquals(cls.getAttributeTypeName(attr), "newtype");
+    }
+
+    @Test
+    public void AttributeAccessModifierTest() throws UUIDNotFoundException{
+        UMLClass cls = dia.createClass();
+        UUID attr = cls.createAttribute();
+
+        Assert.assertEquals(cls.getAttributeAccessModifier(attr), UMLAttribute.AccessModifier.PRIVATE);
+
+        cls.setAttributeAccessModifier(attr, UMLAttribute.AccessModifier.PACKAGE);
+
+        Assert.assertEquals(cls.getAttributeAccessModifier(attr), UMLAttribute.AccessModifier.PACKAGE);
     }
 
     @Test

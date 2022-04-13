@@ -124,6 +124,17 @@ public class UMLClassDiagramNode extends UMLElement {
         getMethod(methId).getType().setName(name);
     }
 
+    /**
+     * Sets access modifier of a method
+     * @param id UUID of the method
+     * @param accessModifier New access modifier
+     * @throws UUIDNotFoundException in case a method with specified UUID doesn't exist
+     */
+    public void setMethodAccessModifier(UUID id, UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
+        UMLMethod meth = getMethod(id);
+        support.firePropertyChange("methodAccessModifier",meth.getAccessModifier(),accessModifier);
+    }
+
     // ========================================================================= //
     //                              METHOD GETTERS                               //
     // ========================================================================= //
@@ -139,13 +150,23 @@ public class UMLClassDiagramNode extends UMLElement {
     }
 
     /**
-     * Gets the name of the type of a method with the specified UUID
+     * Gets the name of the type of method with the specified UUID
      * @param methId method UUID
      * @return name of the method's type
      * @throws UUIDNotFoundException in case a method with specified UUID doesn't exist
      */
     public String getMethodTypeName(UUID methId) throws UUIDNotFoundException{
         return getMethod(methId).getType().getName();
+    }
+
+    /**
+     * Gets access modifier of a method
+     * @param id UUID of the method
+     * @return access modifier of the method
+     * @throws UUIDNotFoundException in case a method with specified UUID doesn't exist
+     */
+    public UMLAttribute.AccessModifier getMethodAccessModifier(UUID id) throws UUIDNotFoundException{
+        return getMethod(id).getAccessModifier();
     }
 
     // ========================================================================= //

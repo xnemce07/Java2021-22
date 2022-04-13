@@ -140,6 +140,18 @@ public class UMLClass extends UMLClassDiagramNode{
     public UMLAttribute.AccessModifier getAttributeAccessModifier(UUID id)throws UUIDNotFoundException{
         return getAttribute(id).getAccessModifier();
     }
+
+    /**
+     * Sets access modifier of a class
+     * @param id UUID of the class
+     * @param accessModifier New access modifier
+     * @throws UUIDNotFoundException in case a class with specified UUID doesn't exist
+     */
+    public void setAttributeAccessModifier(UUID id,UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
+        support.firePropertyChange("attributeAccessModifier",getAttribute(id).getAccessModifier(),accessModifier);
+        getAttribute(id).setAccessModifier(accessModifier);
+    }
+
     /**
      * Sets access modifier of attribute with specified UUID
      * @param id UUID of the attribute
