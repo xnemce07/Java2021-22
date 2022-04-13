@@ -76,5 +76,29 @@ public class UMLAttribute extends UMLElement{
         this.accessModifier = accessModifier;
     }
 
+    public void print() {
+        // System.out.println(getType().getName() + " " + getName());
+        System.out.println(toString());
+    }
 
+    public String toString() {
+        String am = "";
+        switch(getAccessModifier()){
+            case PACKAGE:
+                am = "~";
+                break;
+            case PRIVATE:
+                am = "-";
+                break;
+            case PROTECTED:
+                am = "#";
+                break;
+            case PUBLIC:
+                am = "+";
+                break;
+            default:
+                break;
+        }
+        return (am + " " + getName() + " : " + getType().getName());
+    }
 }

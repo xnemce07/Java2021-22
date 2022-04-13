@@ -300,5 +300,22 @@ public class UMLClassDiagram {
         relationList.clear();
     }
 
+    /**
+     * Prints a text representation of the diagram
+     */
+    public void print(){
+        System.out.println("\nCLASSES:");
+        for (UMLClass umlClass : classList) {
+            umlClass.print();
+        }
+        System.out.println("\nINTERFACES:");
+        for (UMLInterface umlInterface : interfaceList) {
+            umlInterface.print();
+        }
+        System.out.println("\nRELATIONS:");
+        for (UMLRelation umlRelation : relationList) {
+            umlRelation.print();
+        }
+    }
 
 }

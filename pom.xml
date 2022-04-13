@@ -22,10 +22,17 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.lanterna</groupId>
+      <artifactId>lanterna</artifactId>
+      <version>3.1.1</version>
+  </dependency>
+  
   </dependencies>
 
   <build>
-    <!-- <directory>${project.basedir}/target</directory> -->
+    <directory>${project.basedir}/dest</directory>
     <outputDirectory>${project.basedir}/build</outputDirectory>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <testOutputDirectory>${project.basedir}/build</testOutputDirectory>
@@ -38,6 +45,13 @@
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>${project.basedir}/doc</directory>
+              </fileset>
+            </filesets>
+          </configuration>
         </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>

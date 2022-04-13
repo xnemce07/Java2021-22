@@ -1,7 +1,7 @@
 /**
-* Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
-* Date: 12.4.2023
-*/
+ * Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
+ * Date: 12.4.2022
+ */
 package ija.project.model.classdiagram;
 
 import java.beans.PropertyChangeListener;
@@ -97,5 +97,26 @@ public class UMLRelation extends UMLElement {
     public void setRelationType(RelationType relationType) {
         support.firePropertyChange("relationType",this.relationType,relationType);
         this.relationType = relationType;
+    }
+    
+    /**
+     * Prints a text represantation of th Relation
+     */
+    public void print(){
+        System.out.println(toString());
+    }
+
+    public String toString(){
+        switch(getRelationType()){
+            case ASSOCIATION:
+                return (getStartNode().getName() + " -----(" + getName() + ")-----> " + getEndNode().getName());
+            case AGGREGATION:
+                return (getStartNode().getName() + " -----(" + getName() + ")-----<a> " + getEndNode().getName());
+            case COMPOSITION:
+                return (getStartNode().getName() + " -----(" + getName() + ")-----<c> " + getEndNode().getName());
+            case GENERALIZATION:
+                return (getStartNode().getName() + " -----(" + getName() + ")-----|> " + getEndNode().getName());
+        }
+        return "";
     }
 }
