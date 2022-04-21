@@ -73,6 +73,7 @@ public class UMLClassDiagram implements PropertyChangeListener{
         return Collections.unmodifiableList(classList);
     }
 
+
     /**
      * Create and add class with specified name
      * @param name Name of the new class
@@ -234,6 +235,31 @@ public class UMLClassDiagram implements PropertyChangeListener{
             find = getInterface(nodeId);
         }
         return find;
+    }
+
+    public List<UMLClassDiagramNode> getNodes(){
+        ArrayList<UMLClassDiagramNode> nodes = new ArrayList<UMLClassDiagramNode>(classList);
+        nodes.addAll(interfaceList);
+        return Collections.unmodifiableList(nodes);
+    }
+
+    /**
+     * Get class diagram node with specified name
+     * @param name Name
+     * @return class diagram node, null if nothing was found
+     */
+    public UMLClassDiagramNode getNodeByName(String name){
+        for(UMLClass umlClass:classList){
+            if (umlClass.getName().equals(name)){
+                return umlClass;
+            }
+        }
+        for(UMLInterface umlInterface:interfaceList){
+            if(umlInterface.getName().equals(name)){
+                return umlInterface;
+            }
+        }
+        return null;
     }
 
     // ========================================================================= //
