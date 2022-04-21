@@ -3,8 +3,7 @@
 * Date: 12.4.2022
 */
 package ija.project.model.classdiagram;
-import ija.project.model.classdiagram.exceptions.NameNotAvailableException;
-import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
+import ija.project.model.exceptions.UUIDNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;

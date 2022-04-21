@@ -4,8 +4,8 @@
 */
 
 package ija.project.model.classdiagram;
-import ija.project.model.classdiagram.exceptions.NameNotAvailableException;
-import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
+import ija.project.model.UMLElement;
+import ija.project.model.exceptions.UUIDNotFoundException;
 
 
 import java.beans.PropertyChangeListener;
@@ -169,6 +169,15 @@ public class UMLClassDiagramNode extends UMLElement {
     // ========================================================================= //
     //                              METHOD GETTERS                               //
     // ========================================================================= //
+
+    public UUID getIdByName(String name){
+        for (UMLMethod umlMethod: methodList) {
+            if(umlMethod.getName().equals(name)){
+                return umlMethod.getId();
+            }
+        }
+        return null;
+    }
 
     /**
      * Gets the name of a method with the specified UUID

@@ -14,14 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import ija.project.model.classdiagram.UMLAttribute;
 import ija.project.model.classdiagram.UMLClass;
 import ija.project.model.classdiagram.UMLClassDiagram;
 import ija.project.model.classdiagram.UMLClassDiagramNode;
 import ija.project.model.classdiagram.UMLInterface;
 import ija.project.model.classdiagram.UMLRelation;
 import ija.project.model.classdiagram.UMLRelation.RelationType;
-import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
+import ija.project.model.exceptions.UUIDNotFoundException;
 
 public class App {
 

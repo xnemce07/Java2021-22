@@ -4,10 +4,12 @@
 */
 package ija.project.model.classdiagram;
 
+import ija.project.model.UMLElement;
+
 /**
  * Class representing a type of a method or attribute
  */
-public class UMLType extends UMLElement{
+public class UMLType extends UMLElement {
 
 
     private final Boolean isUserDefined;

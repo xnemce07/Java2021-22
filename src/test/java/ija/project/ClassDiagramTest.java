@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
+import ija.project.model.exceptions.UUIDNotFoundException;
 
 /**
  * Unit test for Class Diagram backend. Tests

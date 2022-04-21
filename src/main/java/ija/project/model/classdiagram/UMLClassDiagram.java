@@ -5,7 +5,7 @@
 
 package ija.project.model.classdiagram;
 
-import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
+import ija.project.model.exceptions.UUIDNotFoundException;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -235,6 +235,20 @@ public class UMLClassDiagram implements PropertyChangeListener{
             find = getInterface(nodeId);
         }
         return find;
+    }
+
+    public UMLClassDiagramNode getNode(UUID id) throws UUIDNotFoundException{
+        for(UMLClass umlClass:classList){
+            if (umlClass.getId().equals(id)){
+                return umlClass;
+            }
+        }
+        for(UMLInterface umlInterface:interfaceList){
+            if(umlInterface.getId().equals(id)){
+                return umlInterface;
+            }
+        }
+        throw new UUIDNotFoundException(id);
     }
 
     public List<UMLClassDiagramNode> getNodes(){

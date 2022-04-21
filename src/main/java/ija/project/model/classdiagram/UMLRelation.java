@@ -4,6 +4,8 @@
  */
 package ija.project.model.classdiagram;
 
+import ija.project.model.UMLElement;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 

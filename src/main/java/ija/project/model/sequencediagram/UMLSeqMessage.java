@@ -4,15 +4,19 @@
 */
 package ija.project.model.sequencediagram;
 
+import ija.project.model.UMLElement;
+
 import java.util.UUID;
 
-public class UMLSeqMessage {
-    private UMLSeqClass sender;
+public class UMLSeqMessage extends UMLElement {
+
+    private UUID sender;
     private boolean isDefined;
     private boolean isChecked;
     private UUID refMethod;
 
-    public UMLSeqMessage(UMLSeqClass sender,UUID refMethod,boolean isChecked, boolean isDefined){
+    public UMLSeqMessage(String name,UUID sender,UUID refMethod,boolean isChecked, boolean isDefined){
+        super(name);
         this.sender = sender;
         this.isChecked = isChecked;
         this.isDefined = isDefined;
@@ -35,11 +39,11 @@ public class UMLSeqMessage {
         isChecked = checked;
     }
 
-    public UMLSeqClass getSender() {
+    public UUID getSender() {
         return sender;
     }
 
-    public void setSender(UMLSeqClass sender) {
+    public void setSender(UUID sender) {
         this.sender = sender;
     }
 }

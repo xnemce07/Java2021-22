@@ -4,10 +4,12 @@
 */
 package ija.project.model.classdiagram;
 
+import ija.project.model.UMLElement;
+
 /**
  * Class representing an attribute of a class
  */
-public class UMLAttribute extends UMLElement{
+public class UMLAttribute extends UMLElement {
 
     private UMLType type;
     private AccessModifier accessModifier = AccessModifier.PRIVATE;

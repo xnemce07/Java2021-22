@@ -4,6 +4,8 @@
 */
 package ija.project.model.sequencediagram;
 
+import ija.project.model.UMLElement;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -11,9 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class UMLSeqClass implements PropertyChangeListener {
+public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
 
-    private UUID id;
     private String name;
     private List<UMLSeqMessage> messageList = new ArrayList<>();
     private UUID refNode;
@@ -21,16 +22,12 @@ public class UMLSeqClass implements PropertyChangeListener {
     private boolean isChecked;
 
     public UMLSeqClass(String name,boolean isDefined,boolean isChecked,UUID refNode){
-        id = UUID.randomUUID();
-        this.name = name;
+        super(name);
         this.isDefined = isDefined;
         this.isChecked = isChecked;
         this.refNode = refNode;
     }
 
-    public UUID getId(){
-        return id;
-    }
 
     public List<UMLSeqMessage> getMessageList() {
         return Collections.unmodifiableList(messageList);
@@ -69,13 +66,6 @@ public class UMLSeqClass implements PropertyChangeListener {
         this.refNode = refNode;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

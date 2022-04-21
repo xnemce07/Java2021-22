@@ -2,7 +2,7 @@
 * Authors: Leopold Nemcek (xnemce07@stud.fit.vutbr.cz), Rudolf Hyksa (xhyksa00@stud.fit.vutbr.cz)
 * Date: 12.4.2022
 */
-package ija.project.model.classdiagram;
+package ija.project.model;
 
 
 import java.util.UUID;
