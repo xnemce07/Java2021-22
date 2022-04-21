@@ -9,10 +9,8 @@ package ija.project.model.classdiagram;
  */
 public class UMLAttribute extends UMLElement{
 
-
     private UMLType type;
     private AccessModifier accessModifier = AccessModifier.PRIVATE;
-
 
     /**
      * Enum with all possible access modifiers

@@ -516,7 +516,7 @@ public class App {
 
     private static void printHelp(){
         System.out.println("Description:\n");
-        System.out.println("This is a simple, last minute Text UI for a simple class diagram editor.");
+        System.out.println("This is a simple Text UI for a simple class diagram editor.");
         System.out.println("As of now, we support creating class diagram Nodes (Classes and Interfaces)");
         System.out.println("with Methods - and Attributes for Classes. Nodes can be connected via Relations.");
         System.out.println("Choose options using their listed index.");
@@ -539,5 +539,3 @@ public class App {
         rel1.setRelationType(RelationType.GENERALIZATION);
     }
 }
-
-

@@ -7,6 +7,7 @@ package ija.project.model.classdiagram;
 
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * exactly one of these at any given time, and the application is always
  * using it, it's suitable to be an Eagerly Initialized Singleton.
  */
-public class UMLClassDiagram {
+public class UMLClassDiagram implements PropertyChangeListener{
     // Create an instance of itself at the time of class loading
     private static final UMLClassDiagram classDiagramInstance = new UMLClassDiagram();
 
@@ -78,7 +79,14 @@ public class UMLClassDiagram {
      * @return Instance of the new class
      */
     public UMLClass createClass(String name){
-        UMLClass cls = new UMLClass(name);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+
+        UMLClass cls = new UMLClass(name + nameCounter);
         support.firePropertyChange("classList", null, cls);
         classList.add(cls);
         return cls;
@@ -89,10 +97,7 @@ public class UMLClassDiagram {
      * @return Instance of the new class
      */
     public UMLClass createClass(){
-        UMLClass cls = new UMLClass("New Class");
-        support.firePropertyChange("classList", null, cls);
-        classList.add(cls);
-        return cls;
+        return createClass("New Class");
     }
 
     /**
@@ -150,7 +155,14 @@ public class UMLClassDiagram {
      * @return Interface instance
      */
     public UMLInterface createInterface(String name){
-        UMLInterface itf = new UMLInterface(name);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+
+        UMLInterface itf = new UMLInterface(name + nameCounter);
         support.firePropertyChange("interfaceList", null, itf);
         interfaceList.add(itf);
         return itf;
@@ -161,10 +173,7 @@ public class UMLClassDiagram {
      * @return Interface instance
      */
     public UMLInterface createInterface(){
-        UMLInterface itf = new UMLInterface("New Interface");
-        support.firePropertyChange("interfaceList", null, itf);
-        interfaceList.add(itf);
-        return itf;
+        return createInterface("New Interface");
     }
 
     /**
@@ -323,6 +332,42 @@ public class UMLClassDiagram {
         System.out.println("\nRELATIONS:");
         for (UMLRelation umlRelation : relationList) {
             umlRelation.print();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////
+
+
+    public boolean nameExists(String name){
+        for (UMLClass umlClass : classList) {
+            if(umlClass.getName().equals(name)){
+                return true;
+            }
+        }
+
+        for (UMLInterface umlInterface : interfaceList) {
+            if(umlInterface.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals("name")){
+            String newName = (String) evt.getNewValue();
+            if(!nameExists(newName)){
+                return;
+            }
+            String nameCounter = "";
+            int count = 0;
+            while(nameExists(newName + nameCounter)){
+                count++;
+                nameCounter = "(" + count + ")";
+            }
+            ((UMLClassDiagramNode)(evt.getSource())).setName(newName + nameCounter);
         }
     }
 

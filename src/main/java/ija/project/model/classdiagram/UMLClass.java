@@ -3,6 +3,7 @@
 * Date: 12.4.2022
 */
 package ija.project.model.classdiagram;
+import ija.project.model.classdiagram.exceptions.NameNotAvailableException;
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
 import java.util.ArrayList;
@@ -40,8 +41,14 @@ public class UMLClass extends UMLClassDiagramNode{
      * @return Instance of created attribute
      */
     public UUID createAttribute(String name, String type){
-        UMLAttribute attribute = new UMLAttribute(name, type);
-        support.firePropertyChange("attributeList", null, attribute);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+        UMLAttribute attribute = new UMLAttribute(name + nameCounter, type);
+        support.firePropertyChange("attributeList", null, attribute.getId());
         attributeList.add(attribute);
         return attribute.getId();
     }
@@ -51,10 +58,7 @@ public class UMLClass extends UMLClassDiagramNode{
      * @return Instance of created attribute
      */
     public UUID createAttribute(){
-        UMLAttribute attribute = new UMLAttribute("New attribute","");
-        support.firePropertyChange("attributeList", null, attribute);
-        attributeList.add(attribute);
-        return attribute.getId();
+        return createAttribute("New attribute","");
     }
 
     /**
@@ -84,7 +88,7 @@ public class UMLClass extends UMLClassDiagramNode{
         }catch(UUIDNotFoundException e){
             return;
         }
-        support.firePropertyChange("attributeList", attribute , null);
+        support.firePropertyChange("attributeList", attribute.getId() , null);
         attributeList.remove(attribute);
     }
 
@@ -93,6 +97,16 @@ public class UMLClass extends UMLClassDiagramNode{
 
     ///////////////////////////////////////////////////////
 
+
+    public boolean nameExists(String name){
+        for (UMLAttribute umlAttribute : attributeList) {
+            if(umlAttribute.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Sets name of attribute with specified UUID
      * @param attrId Attribute UUID
@@ -100,8 +114,14 @@ public class UMLClass extends UMLClassDiagramNode{
      * @throws UUIDNotFoundException If UUID wasn't found
      */
     public void setAttributeName(UUID attrId,String name)throws UUIDNotFoundException{
-        support.firePropertyChange("attributeName", attrId, name);
-        getAttribute(attrId).setName(name);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+        support.firePropertyChange("attributeName", attrId, name + nameCounter);
+        getAttribute(attrId).setName(name + nameCounter);
     }
     /**
      * Gets name of attribute with specified UUID
@@ -150,17 +170,6 @@ public class UMLClass extends UMLClassDiagramNode{
     public void setAttributeAccessModifier(UUID attrId,UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
         support.firePropertyChange("attributeAccessModifier",getAttribute(attrId).getAccessModifier(),accessModifier);
         getAttribute(attrId).setAccessModifier(accessModifier);
-    }
-
-    /**
-     * Sets access modifier of attribute with specified UUID
-     * @param attrId UUID of the attribute
-     * @param modifier New access modifer
-     * @throws UUIDNotFoundException If UUID wasn't found
-     */
-    public void setAttributeTypeName(UUID attrId,UMLAttribute.AccessModifier modifier)throws UUIDNotFoundException{
-        support.firePropertyChange("attributeAccessModifier", attrId, modifier);
-        getAttribute(attrId).setAccessModifier(modifier);
     }
 
     /**

@@ -4,6 +4,7 @@
 */
 
 package ija.project.model.classdiagram;
+import ija.project.model.classdiagram.exceptions.NameNotAvailableException;
 import ija.project.model.classdiagram.exceptions.UUIDNotFoundException;
 
 
@@ -62,6 +63,16 @@ public class UMLClassDiagramNode extends UMLElement {
     //                                UML METHODS                                //
     // ========================================================================= //
 
+    public boolean nameExists(String name){
+        for (UMLMethod umlMethod : methodList) {
+            if(umlMethod.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public List<UMLMethod> getMethodList(){
         return Collections.unmodifiableList(methodList);
     }
@@ -73,9 +84,15 @@ public class UMLClassDiagramNode extends UMLElement {
      * @return Instance of created method
      */
     public UUID createMethod(String name, String type){
-        UMLMethod method = new UMLMethod(name, type);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+        UMLMethod method = new UMLMethod(name + nameCounter, type);
         //support.firePropertyChange(new PropertyChangeEvent(this, "methodList", null , method));
-        support.firePropertyChange("methodList", null , method);
+        support.firePropertyChange("methodList", null , method.getId());
         methodList.add(method);
         return method.getId();
     }
@@ -85,7 +102,7 @@ public class UMLClassDiagramNode extends UMLElement {
      * @return Instance of created method
      */
     public UUID createMethod(){
-        return createMethod("New method","");
+        return createMethod("New method", "");
     }
 
     /**
@@ -114,8 +131,14 @@ public class UMLClassDiagramNode extends UMLElement {
      * @throws UUIDNotFoundException in case a method with specified UUID doesn't exist
      */
     public void setMethodName(UUID methodId, String name) throws UUIDNotFoundException{
-        support.firePropertyChange("methodName", methodId, name);
-        getMethod(methodId).setName(name);
+        String nameCounter = "";
+        int count = 0;
+        while(nameExists(name + nameCounter)){
+            count++;
+            nameCounter = "(" + count + ")";
+        }
+        support.firePropertyChange("methodName", methodId, name + nameCounter);
+        getMethod(methodId).setName(name + nameCounter);
     }
 
 
@@ -191,7 +214,7 @@ public class UMLClassDiagramNode extends UMLElement {
         }catch(UUIDNotFoundException e){
             return;
         }
-        support.firePropertyChange("methodList", meth , null);
+        support.firePropertyChange("methodList", meth.getId() , null);
         methodList.remove(meth);
     }
 
