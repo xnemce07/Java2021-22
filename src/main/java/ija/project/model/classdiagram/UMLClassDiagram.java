@@ -60,6 +60,31 @@ public class UMLClassDiagram implements PropertyChangeListener{
         support.removePropertyChangeListener(listener);
     }
 
+    /**
+     * Corrects nodes name in case the new name is already taken
+     * @param evt Fired event
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(!(evt.getSource() instanceof UMLClassDiagramNode)){ //TODO:NOT SURE THIS WILL WORK
+            return;
+        }
+        if(evt.getPropertyName().equals("name")){
+            String newName = (String) evt.getNewValue();
+            if(!nameExists(newName)){
+                return;
+            }
+            String nameCounter = "";
+            int count = 0;
+            while(nameExists(newName + nameCounter)){
+                count++;
+                nameCounter = "(" + count + ")";
+            }
+            ((UMLClassDiagramNode)evt.getSource()).setName(newName + nameCounter);
+            support.firePropertyChange("nodeName",((UMLClassDiagramNode)evt.getSource()).getId(),newName + nameCounter);
+        }
+    }
+
 
     // ========================================================================= //
     //                                 UML CLASSES                               //
@@ -88,8 +113,9 @@ public class UMLClassDiagram implements PropertyChangeListener{
         }
 
         UMLClass cls = new UMLClass(name + nameCounter);
-        support.firePropertyChange("classList", null, cls);
+        cls.addPropertyChangeListener(this);
         classList.add(cls);
+        support.firePropertyChange("createClass", cls.getId(), cls);
         return cls;
     }
 
@@ -128,14 +154,18 @@ public class UMLClassDiagram implements PropertyChangeListener{
             return;
         }
 
+        List<UMLRelation> willBeDeleted = new ArrayList<>();
         for(UMLRelation rel:relationList){
             if(rel.getStartNode().getId() == classId || rel.getEndNode().getId() == classId){
-                support.firePropertyChange("relationList", rel, null);
+                willBeDeleted.add(rel);
             }
         }
         relationList.removeIf(r -> (r.getStartNode().getId() == classId || r.getEndNode().getId() == classId));
-        support.firePropertyChange("classList", cls, null);
+        for(UMLRelation rel:willBeDeleted){
+            support.firePropertyChange("removeRelation", rel.getId(), rel);
+        }
         classList.remove(cls);
+        support.firePropertyChange("removeClass", classId, cls);
     }
 
     // ========================================================================= //
@@ -164,8 +194,9 @@ public class UMLClassDiagram implements PropertyChangeListener{
         }
 
         UMLInterface itf = new UMLInterface(name + nameCounter);
-        support.firePropertyChange("interfaceList", null, itf);
+        itf.addPropertyChangeListener(this);
         interfaceList.add(itf);
+        support.firePropertyChange("createInterface", itf.getId(), itf);
         return itf;
     }
 
@@ -204,17 +235,20 @@ public class UMLClassDiagram implements PropertyChangeListener{
             return;
         }
 
+        List<UMLRelation> willBeDeleted = new ArrayList<>();
         for(UMLRelation rel:relationList){
             if(rel.getStartNode().getId() == interfaceId || rel.getEndNode().getId() == interfaceId){
-                support.firePropertyChange("relationList", rel, null);
+                willBeDeleted.add(rel);
             }
         }
         relationList.removeIf(r -> (r.getStartNode().getId() == interfaceId || r.getEndNode().getId() == interfaceId));
-        
+        for (UMLRelation rel: willBeDeleted) {
+            support.firePropertyChange("removeRelation", rel.getId(), rel);
+        }
 
         
-        support.firePropertyChange("interfaceList", itf, null);
         interfaceList.remove(itf);
+        support.firePropertyChange("deleteInterface", itf.getId(), itf);
     }
 
     // ========================================================================= //
@@ -222,30 +256,14 @@ public class UMLClassDiagram implements PropertyChangeListener{
     // ========================================================================= //
 
     /**
-     * Get either an Interface or a Class with the specidfied UUID
-     * @param nodeId Interface or Class UUID
+     * Get UMLClassDiagramNode with the specified UUID
+     * @param id Interface or Class UUID
      * @return Interface or Class instance if found, otherwise returns null
      */
-    private UMLClassDiagramNode getById(UUID nodeId)throws UUIDNotFoundException{
-        UMLClassDiagramNode find;
-
-        try{
-            find = getUMLClass(nodeId);
-        }catch(UUIDNotFoundException e){
-            find = getInterface(nodeId);
-        }
-        return find;
-    }
-
     public UMLClassDiagramNode getNode(UUID id) throws UUIDNotFoundException{
-        for(UMLClass umlClass:classList){
-            if (umlClass.getId().equals(id)){
-                return umlClass;
-            }
-        }
-        for(UMLInterface umlInterface:interfaceList){
-            if(umlInterface.getId().equals(id)){
-                return umlInterface;
+        for(UMLClassDiagramNode umlClassDiagramNode:getNodes()){
+            if(umlClassDiagramNode.getId().equals(id)){
+                return umlClassDiagramNode;
             }
         }
         throw new UUIDNotFoundException(id);
@@ -312,9 +330,9 @@ public class UMLClassDiagram implements PropertyChangeListener{
      * @throws UUIDNotFoundException in case either of the endpoints don't exist
      */
     public UMLRelation createRelation(String name, UUID startNodeId, UUID endNodeId) throws UUIDNotFoundException{
-        UMLRelation rel = new UMLRelation(name,getById(startNodeId),getById(endNodeId));
-        support.firePropertyChange("relationList", null, rel);
+        UMLRelation rel = new UMLRelation(name,getNode(startNodeId),getNode(endNodeId));
         relationList.add(rel);
+        support.firePropertyChange("newRelation", rel.getId(), rel);
         return rel;
     }
 
@@ -341,8 +359,8 @@ public class UMLClassDiagram implements PropertyChangeListener{
             return;
         }
 
-        support.firePropertyChange("relationList", rel, null);
         relationList.remove(rel);
+        support.firePropertyChange("removeRelation", relationId, rel);
     }
 
     // ========================================================================= //
@@ -351,10 +369,10 @@ public class UMLClassDiagram implements PropertyChangeListener{
      * Clears all diagram element lists
      */
     public void clearDiagram(){
-        support.firePropertyChange("ClearAll", null, null);
         classList.clear();
         interfaceList.clear();
         relationList.clear();
+        support.firePropertyChange("clearAll", null, null);
     }
 
     /**
@@ -394,21 +412,6 @@ public class UMLClassDiagram implements PropertyChangeListener{
     }
 
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("name")){
-            String newName = (String) evt.getNewValue();
-            if(!nameExists(newName)){
-                return;
-            }
-            String nameCounter = "";
-            int count = 0;
-            while(nameExists(newName + nameCounter)){
-                count++;
-                nameCounter = "(" + count + ")";
-            }
-            ((UMLClassDiagramNode)(evt.getSource())).setName(newName + nameCounter);
-        }
-    }
+
 
 }

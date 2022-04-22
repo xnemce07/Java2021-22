@@ -47,8 +47,8 @@ public class UMLClass extends UMLClassDiagramNode{
             nameCounter = "(" + count + ")";
         }
         UMLAttribute attribute = new UMLAttribute(name + nameCounter, type);
-        support.firePropertyChange("attributeList", null, attribute.getId());
         attributeList.add(attribute);
+        support.firePropertyChange("createAttribute", attribute.getId(), name + nameCounter);
         return attribute.getId();
     }
 
@@ -87,8 +87,8 @@ public class UMLClass extends UMLClassDiagramNode{
         }catch(UUIDNotFoundException e){
             return;
         }
-        support.firePropertyChange("attributeList", attribute.getId() , null);
         attributeList.remove(attribute);
+        support.firePropertyChange("removeAttribute", attribute.getId() , null);
     }
 
 
@@ -119,8 +119,8 @@ public class UMLClass extends UMLClassDiagramNode{
             count++;
             nameCounter = "(" + count + ")";
         }
-        support.firePropertyChange("attributeName", attrId, name + nameCounter);
         getAttribute(attrId).setName(name + nameCounter);
+        support.firePropertyChange("attributeName", attrId, name + nameCounter);
     }
     /**
      * Gets name of attribute with specified UUID
@@ -138,8 +138,8 @@ public class UMLClass extends UMLClassDiagramNode{
      * @throws UUIDNotFoundException If UUID wasn't found
      */
     public void setAttributeTypeName(UUID attrId,String name)throws UUIDNotFoundException{
-        support.firePropertyChange("attributeTypeName", attrId, name);
         getAttribute(attrId).getType().setName(name);
+        support.firePropertyChange("attributeTypeName", attrId, name);
     }
     /**
      * Gets name of type of attribute with specified UUID
@@ -167,8 +167,8 @@ public class UMLClass extends UMLClassDiagramNode{
      * @throws UUIDNotFoundException If UUID wasn't found
      */
     public void setAttributeAccessModifier(UUID attrId,UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
-        support.firePropertyChange("attributeAccessModifier",getAttribute(attrId).getAccessModifier(),accessModifier);
         getAttribute(attrId).setAccessModifier(accessModifier);
+        support.firePropertyChange("attributeAccessModifier",getAttribute(attrId).getAccessModifier(),accessModifier);
     }
 
     /**

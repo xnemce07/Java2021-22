@@ -11,24 +11,42 @@ import java.util.UUID;
 public class UMLSeqMessage extends UMLElement {
 
     private UUID sender;
+    private final UUID receiver;
     private boolean isDefined;
     private boolean isChecked;
     private UUID refMethod;
 
-    public UMLSeqMessage(String name,UUID sender,UUID refMethod,boolean isChecked, boolean isDefined){
+    public UMLSeqMessage(String name,UUID sender,UUID receiver,UUID refMethod,boolean isChecked, boolean isDefined){
         super(name);
         this.sender = sender;
         this.isChecked = isChecked;
         this.isDefined = isDefined;
         this.refMethod = refMethod;
+        this.receiver = receiver;
+    }
+
+    public UUID getReceiverId(){
+        return receiver;
     }
 
     public boolean getIsDefined() {
         return isDefined;
     }
 
-    public void setDefined(boolean defined) {
-        isDefined = defined;
+
+
+    public void setDefined(UUID refMethod){
+        isDefined = true;
+        this.refMethod = refMethod;
+    }
+
+    public void setUndefined(){
+        isDefined = false;
+        refMethod = null;
+    }
+
+    public UUID getRefMethod(){
+        return refMethod;
     }
 
     public boolean getIsChecked() {
@@ -46,4 +64,6 @@ public class UMLSeqMessage extends UMLElement {
     public void setSender(UUID sender) {
         this.sender = sender;
     }
+
+
 }

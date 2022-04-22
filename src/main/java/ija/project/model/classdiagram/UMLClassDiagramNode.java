@@ -53,10 +53,11 @@ public class UMLClassDiagramNode extends UMLElement {
 
     /**
      * Set Node name
+     * @param name New name
      */
     public void setName(String name){
-        support.firePropertyChange("name", this.getName(), name);
         super.setName(name);
+        support.firePropertyChange("changeName", this.getId(), name);
     }
 
     // ========================================================================= //
@@ -92,8 +93,8 @@ public class UMLClassDiagramNode extends UMLElement {
         }
         UMLMethod method = new UMLMethod(name + nameCounter, type);
         //support.firePropertyChange(new PropertyChangeEvent(this, "methodList", null , method));
-        support.firePropertyChange("methodList", null , method.getId());
         methodList.add(method);
+        support.firePropertyChange("createMethod", method.getId() , name + nameCounter);
         return method.getId();
     }
 
@@ -137,8 +138,8 @@ public class UMLClassDiagramNode extends UMLElement {
             count++;
             nameCounter = "(" + count + ")";
         }
-        support.firePropertyChange("methodName", methodId, name + nameCounter);
         getMethod(methodId).setName(name + nameCounter);
+        support.firePropertyChange("methodName", methodId, name + nameCounter);
     }
 
 
@@ -151,8 +152,8 @@ public class UMLClassDiagramNode extends UMLElement {
      * @throws UUIDNotFoundException in case a method with specified UUID doesn't exist
      */
     public void setMethodTypeName(UUID methodId, String name) throws UUIDNotFoundException{
-        support.firePropertyChange("methodTypeName", methodId, name);
         getMethod(methodId).getType().setName(name);
+        support.firePropertyChange("methodTypeName", methodId, name);
     }
 
     /**
@@ -163,14 +164,15 @@ public class UMLClassDiagramNode extends UMLElement {
      */
     public void setMethodAccessModifier(UUID methodId, UMLAttribute.AccessModifier accessModifier) throws UUIDNotFoundException{
         UMLMethod meth = getMethod(methodId);
-        support.firePropertyChange("methodAccessModifier",meth.getAccessModifier(),accessModifier);
+        meth.setAccessModifier(accessModifier);
+        support.firePropertyChange("methodAccessModifier",methodId,accessModifier);
     }
 
     // ========================================================================= //
     //                              METHOD GETTERS                               //
     // ========================================================================= //
 
-    public UUID getIdByName(String name){
+    public UUID getMethodIdByName(String name){
         for (UMLMethod umlMethod: methodList) {
             if(umlMethod.getName().equals(name)){
                 return umlMethod.getId();
@@ -223,8 +225,8 @@ public class UMLClassDiagramNode extends UMLElement {
         }catch(UUIDNotFoundException e){
             return;
         }
-        support.firePropertyChange("methodList", meth.getId() , null);
         methodList.remove(meth);
+        support.firePropertyChange("removeMethod", meth.getId() , null);
     }
 
 

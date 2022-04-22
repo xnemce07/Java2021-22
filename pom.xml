@@ -33,7 +33,17 @@
 
   <build>
     <directory>${project.basedir}/dest</directory>
-    <outputDirectory>${project.basedir}/build</outputDirectory>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                  <source>11</source>
+                  <target>11</target>
+              </configuration>
+          </plugin>
+      </plugins>
+      <outputDirectory>${project.basedir}/build</outputDirectory>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <testOutputDirectory>${project.basedir}/build</testOutputDirectory>
     <!-- <finalName>${project.artifactId}-${project.version}</finalName>

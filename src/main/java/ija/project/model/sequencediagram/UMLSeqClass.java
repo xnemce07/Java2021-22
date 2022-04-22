@@ -5,6 +5,7 @@
 package ija.project.model.sequencediagram;
 
 import ija.project.model.UMLElement;
+import ija.project.model.classdiagram.UMLClassDiagramNode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -41,34 +42,66 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
         return isDefined;
     }
 
-    public void setDefined(boolean defined) {
-        if(!defined){
-            for(UMLSeqMessage message:messageList){
-                message.setDefined(false);
-            }
+    public void setUndefined(){
+        isDefined = false;
+        for(UMLSeqMessage seqMessage:messageList){
+            seqMessage.setUndefined();
         }
-        isDefined = defined;
+    }
+
+    public void setRefNode(UUID refNode){
+        isDefined = true;
+        this.refNode = refNode;
+        for(UMLSeqMessage seqMessage:messageList){
+            seqMessage.setUndefined();
+        }
     }
 
     public boolean getIsChecked() {
         return isChecked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setIsChecked(boolean checked) {
         isChecked = checked;
     }
 
-    public UUID getRefNode() {
+    public UUID getRefNodeId() {
         return refNode;
     }
 
-    public void setRefNode(UUID refNode) {
-        this.refNode = refNode;
-    }
+
 
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        if(evt.getSource() instanceof UMLClassDiagramNode){
+            if(evt.getPropertyName().equals("methodName")){
+                String newName = (String) evt.getNewValue();
+                UUID changedMeth = (UUID) evt.getOldValue();
+                for (UMLSeqMessage seqMessage:messageList){
+                    if(seqMessage.getReceiverId().equals(changedMeth)){
+                        seqMessage.setName(newName);
+                    }
+                }
+                for (UMLSeqMessage seqMessage:messageList){
+                    if(seqMessage.getName().equals(newName) && !seqMessage.getIsDefined()){
+                        seqMessage.setDefined((UUID) evt.getOldValue());
+                    }
+                }
+            }else if(evt.getPropertyName().equals("createMethod")){
+                String newMethodName = (String) evt.getNewValue();
+                for (UMLSeqMessage seqMessage:messageList){
+                    if(seqMessage.getName().equals(newMethodName) && !seqMessage.getIsDefined()){
+                        seqMessage.setDefined((UUID) evt.getOldValue());
+                    }
+                }
+            }else if(evt.getPropertyName().equals("removeMethod")){
+                for (UMLSeqMessage seqMessage:messageList){
+                    if(seqMessage.getRefMethod().equals((UUID) evt.getOldValue())){
+                        seqMessage.setUndefined();
+                    }
+                }
+            }
+        }
     }
 }
