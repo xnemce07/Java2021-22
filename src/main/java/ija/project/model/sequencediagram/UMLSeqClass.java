@@ -16,16 +16,15 @@ import java.util.UUID;
 
 public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
 
-    private String name;
     private List<UMLSeqMessage> messageList = new ArrayList<>();
     private UUID refNode;
     private boolean isDefined;
-    private boolean isChecked;
+    private boolean highlightIfUnlinked;
 
-    public UMLSeqClass(String name,boolean isDefined,boolean isChecked,UUID refNode){
+    public UMLSeqClass(String name,boolean isDefined,boolean highlightIfUnlinked,UUID refNode){
         super(name);
         this.isDefined = isDefined;
-        this.isChecked = isChecked;
+        this.highlightIfUnlinked = highlightIfUnlinked;
         this.refNode = refNode;
     }
 
@@ -38,7 +37,7 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
         messageList.add(message);
     }
 
-    public boolean getIsDefined() {
+    public boolean isDefined() {
         return isDefined;
     }
 
@@ -57,19 +56,21 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
         }
     }
 
-    public boolean getIsChecked() {
-        return isChecked;
+    public boolean getHighlightIfUnlinked() {
+        return highlightIfUnlinked;
     }
 
     public void setIsChecked(boolean checked) {
-        isChecked = checked;
+        highlightIfUnlinked = checked;
     }
 
     public UUID getRefNodeId() {
         return refNode;
     }
 
-
+    public boolean doHighlight(){
+        return highlightIfUnlinked;
+    }
 
 
     @Override
@@ -84,14 +85,14 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
                     }
                 }
                 for (UMLSeqMessage seqMessage:messageList){
-                    if(seqMessage.getName().equals(newName) && !seqMessage.getIsDefined()){
+                    if(seqMessage.getName().equals(newName) && !seqMessage.isDefined()){
                         seqMessage.setDefined((UUID) evt.getOldValue());
                     }
                 }
             }else if(evt.getPropertyName().equals("createMethod")){
                 String newMethodName = (String) evt.getNewValue();
                 for (UMLSeqMessage seqMessage:messageList){
-                    if(seqMessage.getName().equals(newMethodName) && !seqMessage.getIsDefined()){
+                    if(seqMessage.getName().equals(newMethodName) && !seqMessage.isDefined()){
                         seqMessage.setDefined((UUID) evt.getOldValue());
                     }
                 }

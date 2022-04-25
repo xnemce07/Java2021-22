@@ -13,13 +13,13 @@ public class UMLSeqMessage extends UMLElement {
     private UUID sender;
     private final UUID receiver;
     private boolean isDefined;
-    private boolean isChecked;
+    private boolean highlightIfUnlinked;
     private UUID refMethod;
 
-    public UMLSeqMessage(String name,UUID sender,UUID receiver,UUID refMethod,boolean isChecked, boolean isDefined){
+    public UMLSeqMessage(String name,UUID sender,UUID receiver,UUID refMethod,boolean highlightIfUnlinked, boolean isDefined){
         super(name);
         this.sender = sender;
-        this.isChecked = isChecked;
+        this.highlightIfUnlinked = highlightIfUnlinked;
         this.isDefined = isDefined;
         this.refMethod = refMethod;
         this.receiver = receiver;
@@ -29,11 +29,9 @@ public class UMLSeqMessage extends UMLElement {
         return receiver;
     }
 
-    public boolean getIsDefined() {
+    public boolean isDefined() {
         return isDefined;
     }
-
-
 
     public void setDefined(UUID refMethod){
         isDefined = true;
@@ -49,12 +47,12 @@ public class UMLSeqMessage extends UMLElement {
         return refMethod;
     }
 
-    public boolean getIsChecked() {
-        return isChecked;
+    public boolean doHighlight() {
+        return highlightIfUnlinked;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
+    public void setChecked(boolean highlightIfUnlinked) {
+        this.highlightIfUnlinked = highlightIfUnlinked;
     }
 
     public UUID getSender() {
@@ -64,6 +62,5 @@ public class UMLSeqMessage extends UMLElement {
     public void setSender(UUID sender) {
         this.sender = sender;
     }
-
 
 }

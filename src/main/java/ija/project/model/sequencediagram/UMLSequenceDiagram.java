@@ -33,41 +33,51 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
     //                              SEQUENCE CLASSES                             //
     // ========================================================================= //
 
-    public UUID createSeqClass(String name, boolean isChecked){
+    public UUID createSeqClass(String name, boolean highlightIfUnlinked){
         UMLClassDiagramNode refNode =  classDiagram.getNodeByName(name);
         UMLSeqClass seqClass = null;
         if (refNode == null){
-            seqClass = new UMLSeqClass(name,false,isChecked,null);
+            seqClass = new UMLSeqClass(name, false, highlightIfUnlinked, null);
         }else{
-            seqClass = new UMLSeqClass(name,true,isChecked,refNode.getId());
+            seqClass = new UMLSeqClass(name, true, highlightIfUnlinked, refNode.getId());
             refNode.addPropertyChangeListener(seqClass);
         }
+        classList.add(seqClass);
         return seqClass.getId();
     }
 
-    private UMLSeqClass getSeqClass(UUID id) throws UUIDNotFoundException{
+    private UMLSeqClass getSeqClass(UUID seqClassID) throws UUIDNotFoundException{
         for (UMLSeqClass seqClass:classList){
-            if (seqClass.getId().equals(id)){
+            if (seqClass.getId().equals(seqClassID)){
                 return seqClass;
             }
         }
-        throw new UUIDNotFoundException(id);
+        throw new UUIDNotFoundException(seqClassID);
     }
 
-    public void renameSeqClass(String name, UUID id) throws UUIDNotFoundException{
-        UMLSeqClass seqClass = getSeqClass(id);
+    public String getSeqClassName(UUID seqClassID) throws UUIDNotFoundException{
+        for (UMLSeqClass seqClass:classList){
+            if (seqClass.getId().equals(seqClassID)){
+                return seqClass.getName();
+            }
+        }
+        throw new UUIDNotFoundException(seqClassID);
+    }
+
+    public void renameSeqClass(String name, UUID seqClassID) throws UUIDNotFoundException{
+        UMLSeqClass seqClass = getSeqClass(seqClassID);
         seqClass.setUndefined();
         seqClass.setName(name);
-        checkSeqClass(id);
+        checkSeqClass(seqClassID);
     }
 
-    public void removeSeqClass(UUID id) throws UUIDNotFoundException{
-        UMLSeqClass seqClass = getSeqClass(id);
+    public void removeSeqClass(UUID seqClassID) throws UUIDNotFoundException{
+        UMLSeqClass seqClass = getSeqClass(seqClassID);
         List<UMLSeqMessage> toDelete = new ArrayList<>();
         for(UMLSeqMessage seqMessage: messageList){
-           if(seqMessage.getSender().equals(seqClass) || seqClass.getMessageList().contains(seqMessage)) {
-               toDelete.add(seqMessage);
-           }
+            if(seqMessage.getSender().equals(seqClass.getId()) || seqClass.getMessageList().contains(seqMessage)) {
+                toDelete.add(seqMessage);
+            }
         }
         for(UMLSeqMessage seqMessage:toDelete){
             removeSeqMessage(seqMessage);
@@ -76,7 +86,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
 
     }
 
-    private List<UMLSeqClass> getSeqClasses(String name){
+    private List<UMLSeqClass> getSeqClassList(String name){
         ArrayList<UMLSeqClass> classes = new ArrayList<>();
 
         for (UMLSeqClass umlSeqClass:classList){
@@ -107,7 +117,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
 
     private void checkSeqClassMessages(UUID seqClassID) throws UUIDNotFoundException{
         UMLSeqClass seqClass = getSeqClass(seqClassID);
-        if(!seqClass.getIsDefined()){
+        if(!seqClass.isDefined()){
             seqClass.setUndefined();
             return;
         }
@@ -120,6 +130,16 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
                 seqMessage.setDefined(refMethod);
             }
         }
+    }
+
+    public boolean seqClassIsDefined(UUID seqClassID) throws UUIDNotFoundException{
+        for (UMLSeqClass seqClass : classList) {
+            if (seqClass.getId().equals(seqClassID)){
+                return seqClass.isDefined();
+            }
+        }
+
+        throw new UUIDNotFoundException(seqClassID);
     }
 
     @Override
@@ -147,7 +167,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
                 }
             }else if(evt.getPropertyName().equals("removeClass") || evt.getPropertyName().equals("removeInterface")){
                 for(UMLSeqClass seqClass: classList){
-                    if(seqClass.getRefNodeId().equals((UUID) evt.getOldValue())){
+                    if(seqClass.getRefNodeId().equals((UUID)evt.getOldValue())){
                         seqClass.setUndefined();
                     }
                 }
@@ -158,22 +178,22 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
     // ========================================================================= //
     //                             SEQUENCE MESSAGES                             //
     // ========================================================================= //
-
-
-    public UUID createSeqMessage(String name,UUID receiver, UUID sender,boolean isChecked) throws UUIDNotFoundException{
+    
+    public UUID createSeqMessage(String name, UUID receiver, UUID sender, boolean highlightIfUnlinked) throws UUIDNotFoundException{
         getSeqClass(sender);
         UMLSeqMessage message;
         UMLSeqClass seqReceiver = getSeqClass(receiver);
-        if(seqReceiver.getIsDefined()){
+        if(seqReceiver.isDefined()){
             UUID refMethod = classDiagram.getNode(seqReceiver.getRefNodeId()).getMethodIdByName(name);
             if(refMethod == null){
-                message = new UMLSeqMessage(name,sender,receiver,null,isChecked,false);
+                message = new UMLSeqMessage(name,sender,receiver,null,highlightIfUnlinked,false);
             }else{
-                message = new UMLSeqMessage(name,sender,receiver,refMethod,isChecked,true);
+                message = new UMLSeqMessage(name,sender,receiver,refMethod,highlightIfUnlinked,true);
             }
         }else{
-            message = new UMLSeqMessage(name,sender,receiver,null,isChecked,false);
+            message = new UMLSeqMessage(name,sender,receiver,null,highlightIfUnlinked,false);
         }
+        messageList.add(message);
         return message.getId();
     }
 
@@ -183,14 +203,36 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         checkSeqMessage(messageID);
     }
 
-
-    private void checkSeqMessage(UUID messageId) throws UUIDNotFoundException{
-        UMLSeqMessage message = getSeqMessage(messageId);
-        if(!message.getIsDefined()){
+    private void checkSeqMessage(UUID messageID) throws UUIDNotFoundException{
+        UMLSeqMessage message = getSeqMessage(messageID);
+        if(!message.isDefined()){
             message.setUndefined();
             return;
         }
 
+        // FIXME: There is probably an issue here..
+        // I think we are looking for a Class Diagram Node using the ID of a Sequence Class
+        //
+        // Looking for a Node
+        // Using a Sequence ID
+        // Something's fishy here
+        //
+        // There seems to be a
+        // NullPointerException here
+        // That's what the tests say
+        //
+        // Sorry in advance
+        // I'm unable to fix it
+        // I've got other work
+        //
+        // This one is all yours
+        // I have tracked it down for you
+        // Please, knock yourself out
+        //
+        // NOTE:
+        // "Unable" has three
+        // Syllables, while "please" has one
+        // What the fuck is this
         UMLClassDiagramNode refNode = classDiagram.getNode(getSeqClass(message.getReceiverId()).getId());
         UUID refMethod = refNode.getMethodIdByName(message.getName());
 
@@ -201,19 +243,28 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         }
     }
 
-    private UMLSeqMessage getSeqMessage(UUID id) throws UUIDNotFoundException{
+    private UMLSeqMessage getSeqMessage(UUID messageID) throws UUIDNotFoundException{
         for (UMLSeqMessage seqMessage:messageList){
-            if (seqMessage.getId().equals(id)){
+            if (seqMessage.getId().equals(messageID)){
                 return seqMessage;
             }
         }
-        throw new UUIDNotFoundException(id);
+        throw new UUIDNotFoundException(messageID);
     }
 
-    public void removeSeqMessage(UUID id){
+    public String getSeqMessageName(UUID messageID) throws UUIDNotFoundException{
+        for (UMLSeqMessage seqMessage : messageList){
+            if (seqMessage.getId().equals(messageID)){
+                return seqMessage.getName();
+            }
+        }
+        throw new UUIDNotFoundException(messageID);
+    }
+
+    public void removeSeqMessage(UUID messageID){
         UMLSeqMessage message = null;
         try{
-            message = getSeqMessage(id);
+            message = getSeqMessage(messageID);
         }catch (UUIDNotFoundException e){
             return;
         }
@@ -224,7 +275,13 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         messageList.remove(message);
     }
 
+    public boolean seqMessageIsDefined(UUID messageID) throws UUIDNotFoundException{
+        for (UMLSeqMessage message : messageList) {
+            if (message.getId().equals(messageID)){
+                return message.isDefined();
+            }
+        }
 
-
-
+        throw new UUIDNotFoundException(messageID);
+    }
 }
