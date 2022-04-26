@@ -24,7 +24,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void SeqClassCreateLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
 
@@ -35,7 +35,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MessageCreateLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -48,7 +48,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void ClassCreateLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UUID scls1 = seqDia1.createSeqClass("cls1", true);
 
@@ -59,14 +59,13 @@ public class SequenceDiagramTest {
 
     @Test
     public void MethodCreateLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UUID scls1 = seqDia1.createSeqClass("cls1", true);
         UUID msg1 = seqDia1.createSeqMessage("method1", scls1, scls1, true);
 
         UMLClass cls1 = clsDia.createClass("cls1");
 
-        //Assert.assertTrue(seqDia1.seqClassIsDefined(scls1));
 
         UUID meth1 = cls1.createMethod("method1", "int");
 
@@ -88,7 +87,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MethodRenameLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("newMethod", "int");
@@ -103,7 +102,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MethodRenameRelinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -137,7 +136,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MessageRenameLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -155,7 +154,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void SeqClassRenameLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -171,7 +170,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MessageRenameRelinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -191,7 +190,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void SeqClassRenameRelinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -216,7 +215,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void ClassRemovedUnlinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "");
 
@@ -235,7 +234,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void MethodRemovedUnlinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
         UMLClass cls1 = clsDia.createClass("cls1");
         UUID meth1 = cls1.createMethod("method1", "int");
@@ -255,22 +254,29 @@ public class SequenceDiagramTest {
     public void MessageSetReceiverRelinkTest() throws UUIDNotFoundException{
         // This is not implemented, or rather, I don't know how it's implemented
 
-        // UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
 
-        // UMLClass cls1 = clsDia.createClass("cls1");
-        // UMLClass cls2 = clsDia.createClass("cls2");
-        // UUID meth1 = cls1.createMethod("method1", "int");
-        // UUID meth2 = cls1.createMethod("method2", "int");
+        UMLClass cls1 = clsDia.createClass("cls1");
+        UMLClass cls2 = clsDia.createClass("cls2");
+        UUID meth1 = cls1.createMethod("method1", "int");
+        UUID meth2 = cls2.createMethod("method2", "int");
         
-        // UUID scls1 = seqDia1.createSeqClass("cls1", true);
-        // UUID scls2 = seqDia1.createSeqClass("cls2", true);
-        // UUID msg1 = seqDia1.createSeqMessage("method1", scls1, scls2, true);
-        Assert.assertTrue(true);
+        UUID scls1 = seqDia1.createSeqClass("cls1", true);
+        UUID scls2 = seqDia1.createSeqClass("cls2", true);
+        UUID msg1 = seqDia1.createSeqMessage("method2", scls1, scls2, true);
+
+        Assert.assertTrue(seqDia1.seqClassIsDefined(scls1));
+        Assert.assertFalse(seqDia1.seqMessageIsDefined(msg1));
+
+        seqDia1.setMessageReceiver(msg1,scls2);
+        Assert.assertTrue(seqDia1.seqMessageIsDefined(msg1));
+
+
     }
 
     @Test
     public void DualSeqClassCreateLinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
         UMLClass cls1 = clsDia.createClass("cls1");
 
         UUID scls1 = seqDia1.createSeqClass("cls1", true);
@@ -282,7 +288,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void DualClassRenameRelinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
         UMLClass cls1 = clsDia.createClass("cls1");
 
         UUID scls1 = seqDia1.createSeqClass("cls1", true);
@@ -299,7 +305,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void DualSeqClassRenameRelinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
         UMLClass cls1 = clsDia.createClass("cls1");
         UMLClass cls2 = clsDia.createClass("cls2");
 
@@ -315,7 +321,7 @@ public class SequenceDiagramTest {
 
     @Test
     public void DualSeqClassRenameUnlinkTest() throws UUIDNotFoundException{
-        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Seqence diagram 1");
+        UMLSequenceDiagram seqDia1 = new UMLSequenceDiagram("Sequence diagram 1");
         UMLClass cls1 = clsDia.createClass("cls1");
 
         UUID scls1 = seqDia1.createSeqClass("cls1", true);

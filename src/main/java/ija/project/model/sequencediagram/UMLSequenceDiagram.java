@@ -207,10 +207,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
 
     private void checkSeqMessage(UUID messageID) throws UUIDNotFoundException{
         UMLSeqMessage message = getSeqMessage(messageID);
-        if(!message.isDefined()){
-            message.setUndefined();
-            return;
-        }
+
 
         // FIXME: There is probably an issue here..
         // I think we are looking for a Class Diagram Node using the ID of a Sequence Class
@@ -275,10 +272,26 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         receiver.removeMessage(message);
     }
 
-    public void removeSeqMessage(UMLSeqMessage message) throws  UUIDNotFoundException{
+    private void removeSeqMessage(UMLSeqMessage message) throws  UUIDNotFoundException{
         UMLSeqClass receiver = getSeqClass(message.getReceiverId());
         receiver.removeMessage(message);
         messageList.remove(message);
+    }
+
+    public void setMessageSender(UUID messageId,UUID senderId) throws UUIDNotFoundException{
+        UMLSeqMessage message = getSeqMessage(messageId);
+        getSeqClass(senderId);
+        message.setSender(senderId);
+    }
+
+    public void setMessageReceiver(UUID messageId, UUID receiverId) throws UUIDNotFoundException{
+        UMLSeqMessage message = getSeqMessage(messageId);
+        UMLSeqClass oldReceiver = getSeqClass(message.getReceiverId());
+        UMLSeqClass newReceiver = getSeqClass(receiverId);
+        oldReceiver.removeMessage(message);
+        newReceiver.addMessage(message);
+        message.setReceiverId(receiverId);
+        checkSeqMessage(messageId);
     }
 
     public boolean seqMessageIsDefined(UUID messageID) throws UUIDNotFoundException{

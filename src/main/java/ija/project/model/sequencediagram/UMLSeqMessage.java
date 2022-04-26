@@ -11,7 +11,7 @@ import java.util.UUID;
 public class UMLSeqMessage extends UMLElement {
 
     private UUID sender;
-    private final UUID receiver;
+    private UUID receiver;
     private boolean isDefined;
     private boolean highlightIfUnlinked;
     private UUID refMethod;
@@ -27,6 +27,10 @@ public class UMLSeqMessage extends UMLElement {
 
     public UUID getReceiverId(){
         return receiver;
+    }
+
+    public void setReceiverId(UUID id){
+        receiver = id;
     }
 
     public boolean isDefined() {
