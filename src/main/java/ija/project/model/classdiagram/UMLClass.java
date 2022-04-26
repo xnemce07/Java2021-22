@@ -25,12 +25,21 @@ public class UMLClass extends UMLClassDiagramNode{
     //                               UML ATTRIBUTES                              //
     // ========================================================================= //
 
+
+    //public List<UMLAttribute> getAttributeList(){
+    //    return Collections.unmodifiableList(attributeList);
+    //}
+
     /**
-     * Getter for list of all attributes of this class
+     * Getter for list of all ids of attributes of this class
      * @return Unmodifiable list
      */
-    public List<UMLAttribute> getAttributeList(){
-        return Collections.unmodifiableList(attributeList);
+    public List<UUID> getAttributeIds(){
+        ArrayList<UUID> uuids = new ArrayList<>();
+        for(UMLAttribute attribute:attributeList){
+            uuids.add(attribute.getId());
+        }
+        return uuids;
     }
 
     /**
@@ -185,9 +194,7 @@ public class UMLClass extends UMLClassDiagramNode{
 
         System.out.println("Methods:");
         
-        for (UMLMethod umlMethod : getMethodList()) {
-            System.out.println("  " + umlMethod.toString());
-        }
+        printMethods();
         System.out.println("=".repeat(20));
     }
 }

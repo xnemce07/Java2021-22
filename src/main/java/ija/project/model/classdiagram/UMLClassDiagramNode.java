@@ -11,7 +11,6 @@ import ija.project.model.exceptions.UUIDNotFoundException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +22,7 @@ import java.util.UUID;
 public class UMLClassDiagramNode extends UMLElement {
 
     private final ArrayList<UMLMethod> methodList = new ArrayList<>();
+
 
     public UMLClassDiagramNode(String name){
         super(name);
@@ -78,8 +78,23 @@ public class UMLClassDiagramNode extends UMLElement {
     }
 
 
-    public List<UMLMethod> getMethodList(){
-        return Collections.unmodifiableList(methodList);
+    //public List<UMLMethod> getMethodList(){
+    //    return Collections.unmodifiableList(methodList);
+    //}
+
+    public void printMethods(){
+        for (UMLMethod umlMethod : methodList) {
+            System.out.println("  " + umlMethod.toString());
+        }
+    }
+
+
+    public List<UUID> getMethodIds(){
+        ArrayList<UUID> uuids = new ArrayList<>();
+        for(UMLMethod method:methodList){
+            uuids.add(method.getId());
+        }
+        return uuids;
     }
 
     /**

@@ -165,15 +165,15 @@ public class ClassDiagramTest {
         
         UMLClass clsGet = dia.getUMLClass(cls.getId());
 
-        Assert.assertEquals(clsGet.getAttributeList().size(), 2);
+        Assert.assertEquals(clsGet.getAttributeIds().size(), 2);
 
         cls.removeAttribute(attr);
 
-        Assert.assertEquals(clsGet.getAttributeList().size(), 1);
+        Assert.assertEquals(clsGet.getAttributeIds().size(), 1);
 
         cls.removeAttribute(attr2);
 
-        Assert.assertEquals(clsGet.getAttributeList().size(), 0);
+        Assert.assertEquals(clsGet.getAttributeIds().size(), 0);
     }
 
     @Test
@@ -184,14 +184,14 @@ public class ClassDiagramTest {
 
         UMLClass clsGet = dia.getUMLClass(cls.getId());
 
-        Assert.assertEquals(clsGet.getMethodList().size(), 2);
+        Assert.assertEquals(clsGet.getMethodIds().size(), 2);
 
         cls.removeMethod(meth1);
 
-        Assert.assertEquals(clsGet.getMethodList().size(), 1);
+        Assert.assertEquals(clsGet.getMethodIds().size(), 1);
 
         cls.removeMethod(meth2);
 
-        Assert.assertEquals(clsGet.getMethodList().size(), 0);
+        Assert.assertEquals(clsGet.getMethodIds().size(), 0);
     }
 }

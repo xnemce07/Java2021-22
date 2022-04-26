@@ -21,10 +21,8 @@ public class UMLInterface extends UMLClassDiagramNode {
         System.out.println("Name: " + getName());
         // System.out.println("-".repeat(20));
         System.out.println("Methods:");
-        
-        for (UMLMethod umlMethod : getMethodList()) {
-            System.out.println("  " + umlMethod.toString());
-        }
+
+        printMethods();
         System.out.println("=".repeat(20));
     }
 }
