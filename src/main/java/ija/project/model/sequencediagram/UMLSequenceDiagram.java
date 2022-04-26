@@ -34,6 +34,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
     // ========================================================================= //
 
     public UUID createSeqClass(String name, boolean highlightIfUnlinked){
+
         UMLClassDiagramNode refNode =  classDiagram.getNodeByName(name);
         UMLSeqClass seqClass = null;
         if (refNode == null){
@@ -145,7 +146,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getSource() instanceof UMLClassDiagram){
-            if (evt.getPropertyName().equals("nodeName") || evt.getPropertyName().equals("newClass") || evt.getPropertyName().equals("newInterface")){
+            if (evt.getPropertyName().equals("nodeName") || evt.getPropertyName().equals("createClass") || evt.getPropertyName().equals("createInterface")){
                 UMLClassDiagramNode changedNode = null;
                 try {
                     changedNode = classDiagram.getUMLClass((UUID) evt.getOldValue());
@@ -193,6 +194,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         }else{
             message = new UMLSeqMessage(name,sender,receiver,null,highlightIfUnlinked,false);
         }
+        seqReceiver.addMessage(message);
         messageList.add(message);
         return message.getId();
     }
@@ -233,7 +235,7 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         // "Unable" has three
         // Syllables, while "please" has one
         // What the fuck is this
-        UMLClassDiagramNode refNode = classDiagram.getNode(getSeqClass(message.getReceiverId()).getId());
+        UMLClassDiagramNode refNode = classDiagram.getNode(getSeqClass(message.getReceiverId()).getRefNodeId());
         UUID refMethod = refNode.getMethodIdByName(message.getName());
 
         if(refMethod == null){
@@ -261,17 +263,21 @@ public class UMLSequenceDiagram extends UMLElement implements PropertyChangeList
         throw new UUIDNotFoundException(messageID);
     }
 
-    public void removeSeqMessage(UUID messageID){
+    public void removeSeqMessage(UUID messageID) throws UUIDNotFoundException{
         UMLSeqMessage message = null;
         try{
             message = getSeqMessage(messageID);
         }catch (UUIDNotFoundException e){
             return;
         }
+        UMLSeqClass receiver = getSeqClass(message.getReceiverId());
         messageList.remove(message);
+        receiver.removeMessage(message);
     }
 
-    public void removeSeqMessage(UMLSeqMessage message){
+    public void removeSeqMessage(UMLSeqMessage message) throws  UUIDNotFoundException{
+        UMLSeqClass receiver = getSeqClass(message.getReceiverId());
+        receiver.removeMessage(message);
         messageList.remove(message);
     }
 

@@ -29,12 +29,17 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
     }
 
 
+
     public List<UMLSeqMessage> getMessageList() {
         return Collections.unmodifiableList(messageList);
     }
 
     public void addMessage(UMLSeqMessage message){
         messageList.add(message);
+    }
+
+    public void removeMessage(UMLSeqMessage message){
+        messageList.remove(message);
     }
 
     public boolean isDefined() {
@@ -80,7 +85,7 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
                 String newName = (String) evt.getNewValue();
                 UUID changedMeth = (UUID) evt.getOldValue();
                 for (UMLSeqMessage seqMessage:messageList){
-                    if(seqMessage.getReceiverId().equals(changedMeth)){
+                    if(seqMessage.getRefMethod() == changedMeth){
                         seqMessage.setName(newName);
                     }
                 }
@@ -98,10 +103,12 @@ public class UMLSeqClass extends UMLElement implements PropertyChangeListener {
                 }
             }else if(evt.getPropertyName().equals("removeMethod")){
                 for (UMLSeqMessage seqMessage:messageList){
-                    if(seqMessage.getRefMethod().equals((UUID) evt.getOldValue())){
+                    if(seqMessage.getRefMethod() ==  (UUID) evt.getOldValue()){
                         seqMessage.setUndefined();
                     }
                 }
+            }else if(evt.getPropertyName().equals("changeName")){
+                setName((String) evt.getNewValue());
             }
         }
     }

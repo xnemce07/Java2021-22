@@ -60,6 +60,10 @@ public class UMLClassDiagramNode extends UMLElement {
         support.firePropertyChange("changeName", this.getId(), name);
     }
 
+    protected void setNameNoFire(String name){
+        super.setName(name);
+    }
+
     // ========================================================================= //
     //                                UML METHODS                                //
     // ========================================================================= //
@@ -226,7 +230,7 @@ public class UMLClassDiagramNode extends UMLElement {
             return;
         }
         methodList.remove(meth);
-        support.firePropertyChange("removeMethod", meth.getId() , null);
+        support.firePropertyChange("removeMethod", methodId , null);
     }
 
 
