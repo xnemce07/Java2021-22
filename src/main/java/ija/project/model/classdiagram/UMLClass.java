@@ -184,7 +184,7 @@ public class UMLClass extends UMLClassDiagramNode{
      * Prints a text representation of the Class
      */
     public void print(){
-        System.out.println("=".repeat(20));
+        //System.out.println("=".repeat(20));
         System.out.println("Name: " + getName());
         System.out.println("Attributes:");
         
@@ -195,6 +195,6 @@ public class UMLClass extends UMLClassDiagramNode{
         System.out.println("Methods:");
         
         printMethods();
-        System.out.println("=".repeat(20));
+        //System.out.println("=".repeat(20));
     }
 }

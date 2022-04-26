@@ -17,12 +17,12 @@ public class UMLInterface extends UMLClassDiagramNode {
      * Prints a text representation of the interface
      */
     public void print(){
-        System.out.println("=".repeat(20));
+        //System.out.println("=".repeat(20));
         System.out.println("Name: " + getName());
         // System.out.println("-".repeat(20));
         System.out.println("Methods:");
 
         printMethods();
-        System.out.println("=".repeat(20));
+        //System.out.println("=".repeat(20));
     }
 }
