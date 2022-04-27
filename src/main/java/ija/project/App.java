@@ -11,10 +11,26 @@
 package ija.project;
 
 
+import ija.project.GUI.RootLayout;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class App {
+import java.io.IOException;
+
+public class App extends Application {
 
     public static void main(String[] args){
-        System.out.println("Hello World!");
+        launch();
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException{
+        RootLayout rootLayout = new RootLayout();
+        stage.setScene(new Scene(rootLayout));
+        stage.setTitle("ya bish");
+        stage.setWidth(1000);
+        stage.setHeight(800);
+        stage.show();
     }
 }
