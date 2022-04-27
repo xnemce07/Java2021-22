@@ -14,13 +14,13 @@ public class CommandStackTest {
 
     @Test
     public void commandStackTest(){
-        CommandStack stack = new CommandStack();
+        CommandStack stack = CommandStack.getInstance();
 
         Command command = new Command(()-> System.out.println("Exec"),()-> System.out.println("Undo"));
 
         stack.execute(command);
         stack.undo();
-
+        stack.clear();
     }
 
 }
